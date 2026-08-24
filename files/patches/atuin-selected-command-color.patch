@@ -1,0 +1,11 @@
+diff --git a/crates/atuin/src/command/client/search/history_list.rs b/crates/atuin/src/command/client/search/history_list.rs
+--- a/crates/atuin/src/command/client/search/history_list.rs
++++ b/crates/atuin/src/command/client/search/history_list.rs
+@@ -316,7 +316,7 @@ impl DrawState<'_> {
+         {
+             row_highlighted = true;
+             // if not applying alternative highlighting to the whole row, color the command
+-            style = self.theme.as_style(Meaning::AlertError);
++            style = self.theme.as_style(Meaning::Important);
+             style.attributes.set(style::Attribute::Bold);
+         }

@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+
+xargs() {
+  local arg
+  local -a expanded_args
+
+  for arg in "$@"; do
+    if (( $+aliases[$arg] )); then
+      expanded_args+=(${(z)aliases[$arg]})
+    else
+      expanded_args+=("$arg")
+    fi
+  done
+
+  command xargs "${expanded_args[@]}"
+}

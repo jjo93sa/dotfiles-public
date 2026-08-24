@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+
+cal() {
+  emulate -L zsh
+
+  if (( $# > 0 )); then
+    command cal "$@"
+    return
+  fi
+
+  local day=${$(date +%e)// /}
+  local highlight=$'\e[0;35m'
+  local reset=$'\e[0m'
+
+  command cal | sed -E "s/(^|[[:space:]])(${day})([[:space:]]|$)/\\1${highlight}\\2${reset}\\3/"
+}

@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+rmk() {
+  ssh-keygen -R "$1"
+}

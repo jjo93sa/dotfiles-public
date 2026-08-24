@@ -1,0 +1,23 @@
+[theme]
+name = "gruvbox-dark-hard"
+parent = "default"
+
+[colors]
+# Red is deliberately reserved for actual errors. Selected or otherwise
+# important UI elements use the same aqua accent as the rest of the terminal.
+AlertInfo = "#98971a"
+AlertWarn = "#d79921"
+AlertError = "#cc241d"
+Annotation = "#bdae93"
+Guidance = "#83a598"
+Important = "#83a598"
+Title = "#7daea3"
+Muted = "#928374"
+
+# Keep the base unset so ordinary text inherits Ghostty's foreground.
+SyntaxCommand = "#b8bb26"
+SyntaxFlag = "#d8a657"
+SyntaxString = "#89b482"
+SyntaxVariable = "#d3869b"
+SyntaxOperator = "#e78a4e"
+SyntaxComment = "#928374"

@@ -1,0 +1,12 @@
+# ---- FZF-GIT ----
+# We need to reset the keybindings because of zsh-vi-mode
+# Set keybindings for zsh-vi-mode insert mode
+# https://github.com/junegunn/fzf-git.sh/issues/23
+function zvm_after_init() {
+    zvm_bindkey viins "^P" up-line-or-beginning-search
+    zvm_bindkey viins "^N" down-line-or-beginning-search
+    for o in files branches tags remotes hashes stashes lreflogs each_ref; do
+        eval "zvm_bindkey viins '^g^${o[1]}' fzf-git-$o-widget"
+        eval "zvm_bindkey viins '^g${o[1]}' fzf-git-$o-widget"
+    done
+}

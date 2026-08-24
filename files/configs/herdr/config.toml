@@ -1,0 +1,30 @@
+# Herdr keeps the Gruvbox foundation used by Ghostty, with the softer
+# Gruvbox Material accents making the multiplexer context visually distinct.
+onboarding = false
+
+[theme]
+name = "gruvbox"
+
+[theme.custom]
+panel_bg = "#282828"
+surface0 = "#32302f"
+surface1 = "#665c54"
+surface_dim = "#1d2021"
+overlay0 = "#a89984"
+overlay1 = "#bdae93"
+text = "#fbf1c7"
+subtext0 = "#d5c4a1"
+accent = "#83a598"
+mauve = "#d3869b"
+green = "#a9b665"
+yellow = "#d8a657"
+red = "#ea6962"
+blue = "#83a598"
+teal = "#89b482"
+peach = "#e78a4e"
+
+[ui]
+accent = "#83a598"
+pane_borders = true
+pane_gaps = true
+show_agent_labels_on_pane_borders = true

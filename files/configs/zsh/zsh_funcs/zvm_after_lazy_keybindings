@@ -1,0 +1,13 @@
+# ---- FZF-GIT ----
+# We need to reset the keybindings because of zsh-vi-mode
+# Set keybindings for zsh-vi-mode insert mode
+# https://github.com/junegunn/fzf-git.sh/issues/23
+# Set keybindings for zsh-vi-mode normal and visual modes
+function zvm_after_lazy_keybindings() {
+    for o in files branches tags remotes hashes stashes lreflogs each_ref; do
+        eval "zvm_bindkey vicmd '^g^${o[1]}' fzf-git-$o-widget"
+        eval "zvm_bindkey vicmd '^g${o[1]}' fzf-git-$o-widget"
+        eval "zvm_bindkey visual '^g^${o[1]}' fzf-git-$o-widget"
+        eval "zvm_bindkey visual '^g${o[1]}' fzf-git-$o-widget"
+    done
+}

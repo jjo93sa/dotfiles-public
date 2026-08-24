@@ -1,0 +1,115 @@
+"$schema" = "https://starship.rs/config-schema.json"
+
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$python\
+$nix_shell\
+$kubernetes\
+$jobs\
+$status\
+$line_break\
+$character"""
+
+right_format = """$cmd_duration$time"""
+
+palette = "gruvbox_dark_hard"
+
+[palettes.gruvbox_dark_hard]
+fg = "#ebdbb2"
+bg = "#1d2021"
+gray = "#928374"
+red = "#cc241d"
+green = "#98971a"
+yellow = "#d79921"
+blue = "#458588"
+purple = "#b16286"
+aqua = "#689d6a"
+orange = "#d65d0e"
+
+[username]
+show_always = false
+style_user = "yellow"
+style_root = "red"
+format = "[$user]($style)"
+
+[hostname]
+ssh_only = true
+style = "yellow"
+format = "[@$hostname]($style) "
+
+[directory]
+style = "yellow"
+format = "[$path]($style) "
+truncation_length = 4
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = "󰝚 "
+"Pictures" = " "
+"Developer" = "󰲋 "
+
+[git_branch]
+symbol = ""
+style = "aqua"
+format = "[$symbol $branch]($style) "
+
+[git_status]
+style = "aqua"
+format = "[($all_status$ahead_behind)]($style)"
+modified = "~ "
+ahead = "↑${count} "
+behind = "↓${count} "
+diverged = "↕↑${ahead_count}↓${behind_count} "
+renamed = "» "
+staged = "+ "
+
+[python]
+symbol = ""
+style = "blue"
+format = "[$symbol $virtualenv]($style) "
+
+[nix_shell]
+symbol = ""
+style = "blue"
+format = "[$symbol $state( $name)]($style) "
+
+[kubernetes]
+disabled = false
+symbol = "󱃾"
+style = "gray"
+format = "[$symbol $context(::$namespace)]($style) "
+
+[cmd_duration]
+min_time = 500
+style = "yellow"
+format = "[󱎫 $duration]($style) "
+
+[jobs]
+style = "aqua"
+format = "[$symbol$number]($style) "
+
+[status]
+disabled = false
+style = "red"
+symbol = "✘"
+format = "[$symbol $status]($style) "
+
+[time]
+disabled = false
+time_format = "%R"
+style = "fg"
+format = "[ $time]($style) "
+
+[character]
+success_symbol = "[](green)"
+error_symbol = "[](red)"
+vimcmd_symbol = "[](green)"
+vimcmd_replace_one_symbol = "[](purple)"
+vimcmd_replace_symbol = "[](purple)"
+vimcmd_visual_symbol = "[](yellow)"

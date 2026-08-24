@@ -1,0 +1,26 @@
+#!/usr/bin/env zsh
+
+roll() {
+  emulate -L zsh
+
+  if (( $# < 2 )); then
+    print -u2 "usage: roll <archive> <contents...>"
+    return 1
+  fi
+
+  local archive=$1
+  shift
+
+  case $archive in
+    *.tar.bz2|*.tbz2) tar -cvjf "$archive" "$@" ;;
+    *.tar.gz|*.tgz)   tar -cvzf "$archive" "$@" ;;
+    *.tar)            tar -cvf "$archive" "$@" ;;
+    *.zip)            zip "$archive" "$@" ;;
+    *.rar)            rar a "$archive" "$@" ;;
+    *.7z)             7zr a "$archive" "$@" ;;
+    *)
+      print -u2 -- "'$archive' cannot be created by roll"
+      return 1
+      ;;
+  esac
+}

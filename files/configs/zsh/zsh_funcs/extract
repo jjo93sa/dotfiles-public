@@ -1,0 +1,31 @@
+#!/usr/bin/env zsh
+
+extract() {
+  emulate -L zsh
+
+  if (( $# != 1 )); then
+    print -u2 "usage: extract <archive>"
+    return 1
+  fi
+
+  local archive=$1
+  if [[ ! -f $archive ]]; then
+    print -u2 -- "'$archive' is not a valid file"
+    return 1
+  fi
+
+  case $archive in
+    *.tar.bz2|*.tbz2) tar -xjf "$archive" ;;
+    *.tar.gz|*.tgz)   tar -xzf "$archive" ;;
+    *.tar)            tar -xf "$archive" ;;
+    *.bz2)            bunzip2 "$archive" ;;
+    *.gz)             gunzip "$archive" ;;
+    *.rar)            rar x "$archive" ;;
+    *.zip)            unzip "$archive" ;;
+    *.Z)              uncompress "$archive" ;;
+    *)
+      print -u2 -- "'$archive' cannot be extracted by extract"
+      return 1
+      ;;
+  esac
+}
