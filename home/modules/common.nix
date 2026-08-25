@@ -5,6 +5,7 @@
     ../modules/bat.nix
     ../modules/btop.nix
     ../modules/development.nix
+    ../modules/direnv.nix
     ../modules/fastfetch.nix
     ../modules/eza.nix
     ../modules/fzf.nix

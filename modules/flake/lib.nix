@@ -26,6 +26,7 @@
     btop = ../../home/modules/btop.nix;
     common = ../../home/modules/common.nix;
     development = ../../home/modules/development.nix;
+    direnv = ../../home/modules/direnv.nix;
     eza = ../../home/modules/eza.nix;
     fastfetch = ../../home/modules/fastfetch.nix;
     fzf = ../../home/modules/fzf.nix;
