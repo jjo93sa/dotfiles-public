@@ -11,6 +11,7 @@
     mtr
     nixd
     pipenv
+    pv
     ripgrep
     shellcheck
     shfmt
