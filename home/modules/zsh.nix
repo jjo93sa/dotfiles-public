@@ -147,17 +147,6 @@
         };
       }
       {
-        # will source zsh-autoswitch-virtualemv
-        name = "zsh-autoswitch-virtualenv";
-        file = "autoswitch_virtualenv.plugin.zsh";
-        src = pkgs.fetchFromGitHub {
-          owner = "MichaelAquilina";
-          repo = "zsh-autoswitch-virtualenv";
-          rev = "3.7.1";
-          hash = "sha256-hwg9wDMU2XqJ5FQEwMVVaz0n+xZ8NI82tH9VhLfFRC4=";
-        };
-      }
-      {
         # Pin the repository because fetchgit otherwise follows a moving HEAD.
         name = "zsh-vim-mode";
         src = pkgs.fetchgit {
