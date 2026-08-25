@@ -19,3 +19,6 @@ identity and hosts, and point its `dotfiles` input at this repository.
 
 See [`examples/private-overlay/README.md`](examples/private-overlay/README.md)
 for setup, evaluation, and activation commands.
+
+See [`docs/maintenance-guide.md`](docs/maintenance-guide.md) for the repository
+structure, module evaluation flow, update workflow, and debugging commands.
