@@ -1,6 +1,9 @@
 "$schema" = "https://starship.rs/config-schema.json"
 
 format = """
+$cmd_duration\
+$time\
+$line_break\
 $username\
 $hostname\
 $directory\
@@ -13,8 +16,6 @@ $jobs\
 $status\
 $line_break\
 $character"""
-
-right_format = """$cmd_duration$time"""
 
 palette = "gruvbox_dark_hard"
 
@@ -72,7 +73,7 @@ staged = "+ "
 [python]
 symbol = ""
 style = "blue"
-format = "[$symbol $virtualenv]($style) "
+format = "[$symbol( $version)( \\($virtualenv\\))]($style) "
 
 [nix_shell]
 symbol = ""

@@ -1,6 +1,9 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
+$cmd_duration\
+$time\
+$line_break\
 [](color_yellow)\
 $username\
 $hostname\
@@ -29,8 +32,6 @@ $jobs\
 $status\
 [ ](fg:color_bg1)\
 $line_break$character"""
-
-right_format = """$cmd_duration$time"""
 
 palette = 'gruvbox_dark_hard'
 
@@ -187,7 +188,7 @@ format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
 [python]
 symbol = ""
 style = "bg:color_blue"
-format = '[[ $symbol $virtualenv ](fg:color_bg_dim bg:color_blue)]($style)'
+format = '[[ $symbol( $version)( \($virtualenv\)) ](fg:color_bg_dim bg:color_blue)]($style)'
 
 [docker_context]
 symbol = ""
@@ -211,8 +212,8 @@ format = '[[ $symbol $context(::$namespace) ](fg:color_bg_dim bg:color_context)]
 
 [cmd_duration]
 min_time = 2000
-style = "bg:color_bg1"
-format = '[[ 󱎫 $duration ](fg:color_yellow bg:color_bg1)]($style)'
+style = "fg:color_yellow"
+format = '[󱎫 $duration ]($style)'
 
 [jobs]
 style = "bg:color_bg1"
@@ -227,8 +228,8 @@ format = '[[ $symbol $status ](fg:color_red bg:color_bg1)]($style)'
 [time]
 disabled = false
 time_format = "%R"
-style = "bg:color_bg1"
-format = '[[  $time ](fg:color_fg0 bg:color_bg1)]($style)'
+style = "fg:color_fg0"
+format = '[ $time]($style)'
 
 [line_break]
 disabled = false
