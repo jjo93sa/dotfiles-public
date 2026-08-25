@@ -1,4 +1,8 @@
-{userConfig, ...}: {
+{
+  lib,
+  userConfig,
+  ...
+}: {
   # Interactive macOS preferences. A host imports this capability only when it
   # wants this exact opinionated desktop behavior.
   security.pam.services.sudo_local.touchIdAuth = true;
@@ -56,7 +60,9 @@
       };
 
       screencapture = {
-        location = "/Users/${userConfig.name}/Downloads/temp";
+        # Private host modules can replace this default with a normal
+        # assignment, without needing lib.mkForce.
+        location = lib.mkDefault "/Users/${userConfig.name}/Desktop/Screenshots and recordings";
         type = "png";
         disable-shadow = true;
       };
