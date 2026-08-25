@@ -26,16 +26,15 @@
     ghostty.url = "github:ghostty-org/ghostty";
   };
 
-  outputs = inputs@{flake-parts, ...}:
+  outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;} {
       # This is the only import root. The imported modules compose the flake.
       imports = [./modules/flake];
 
-      # perSystem outputs (packages, checks, dev shells, and formatters) are
-      # generated for all common Linux and macOS CPU architectures.
+      # Generate per-system outputs for Apple Silicon macOS and the Linux
+      # architectures used by development VMs.
       systems = [
         "aarch64-darwin"
-        "x86_64-darwin"
         "aarch64-linux"
         "x86_64-linux"
       ];
