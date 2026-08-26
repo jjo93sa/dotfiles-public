@@ -9,6 +9,7 @@
     k9s
     kubectl
     mtr
+    nh
     nixd
     pipenv
     pv
