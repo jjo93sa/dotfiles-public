@@ -11,6 +11,7 @@ $git_branch\
 $git_status\
 $python\
 $nix_shell\
+${env_var.OS_CLOUD}\
 $kubernetes\
 $jobs\
 $status\
@@ -79,6 +80,11 @@ format = "[$symbol( $version)( \\($virtualenv\\))]($style) "
 symbol = ""
 style = "blue"
 format = "[$symbol $state( $name)]($style) "
+
+[env_var.OS_CLOUD]
+symbol = ""
+style = "gray"
+format = "[$symbol $env_value]($style) "
 
 [kubernetes]
 disabled = false
