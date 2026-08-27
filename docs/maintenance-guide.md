@@ -29,7 +29,9 @@ examples/private-overlay/
   Synthetic, copyable private-flake entry point and host compositions.
 ```
 
-`modules/flake/default.nix` is the import root for the flake-parts modules.
+`import-tree` recursively discovers the flake-parts modules beneath
+`modules/flake`, so adding a module there does not require maintaining an
+import index.
 Those modules contribute attributes to the same final output set; their file
 boundaries do not create separate flakes.
 

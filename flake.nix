@@ -9,6 +9,7 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:denful/import-tree";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -26,10 +27,15 @@
     ghostty.url = "github:ghostty-org/ghostty";
   };
 
-  outputs = inputs @ {flake-parts, ...}:
+  outputs = inputs @ {
+    flake-parts,
+    import-tree,
+    ...
+  }:
     flake-parts.lib.mkFlake {inherit inputs;} {
-      # This is the only import root. The imported modules compose the flake.
-      imports = [./modules/flake];
+      # Recursively discover the flake-parts modules. Adding a module beneath
+      # modules/flake does not require maintaining a separate import index.
+      imports = [(import-tree ./modules/flake)];
 
       # Generate per-system outputs for Apple Silicon macOS and the Linux
       # architectures used by development VMs.
