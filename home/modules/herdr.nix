@@ -23,4 +23,11 @@
         ${lib.escapeShellArg "${inputs.herdr-cliamp}"} --enabled
     fi
   '';
+
+  home.activation.linkHerdrLayoutPlugin = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    if [[ -x /opt/homebrew/bin/herdr ]]; then
+      $DRY_RUN_CMD /opt/homebrew/bin/herdr plugin link \
+        ${lib.escapeShellArg "${inputs.herdr-layout}"} --enabled
+    fi
+  '';
 }

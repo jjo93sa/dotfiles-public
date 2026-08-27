@@ -8,6 +8,7 @@
     just
     k9s
     kubectl
+    lua5_4
     mtr
     nh
     nixd

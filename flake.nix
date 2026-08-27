@@ -30,6 +30,11 @@
       url = "github:coryshaw1/herdr-cliamp";
       flake = false;
     };
+
+    herdr-layout = {
+      url = "git+https://github.com/3mmdrew/herdr-layout.git";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {

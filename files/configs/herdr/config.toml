@@ -35,6 +35,12 @@ type = "plugin_action"
 command = "herdr-cliamp.prev"
 description = "cliamp: previous track"
 
+[[keys.command]]
+key = "prefix+a"
+type = "plugin_action"
+command = "herdr-layout.pick"
+description = "pick workspace layout"
+
 [theme]
 name = "gruvbox"
 
