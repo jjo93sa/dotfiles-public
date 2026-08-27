@@ -112,6 +112,22 @@
         "type": "github"
       }
     },
+    "herdr-cliamp": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787537523,
+        "narHash": "sha256-3so6UWrpFadlsWApFKL/9ptrDFdBJIEr40ssCgWgr2k=",
+        "owner": "coryshaw1",
+        "repo": "herdr-cliamp",
+        "rev": "89639321f32ec0a6e913f49b8d3ad235819aa023",
+        "type": "github"
+      },
+      "original": {
+        "owner": "coryshaw1",
+        "repo": "herdr-cliamp",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -265,6 +281,7 @@
         "flake-parts": "flake-parts",
         "ghostty": "ghostty",
         "hardware": "hardware",
+        "herdr-cliamp": "herdr-cliamp",
         "home-manager": "home-manager_2",
         "import-tree": "import-tree",
         "nix-homebrew": "nix-homebrew",

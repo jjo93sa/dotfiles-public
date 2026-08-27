@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   ...
 }: {
@@ -11,6 +12,15 @@
   home.activation.installHerdrCodexIntegration = lib.hm.dag.entryAfter ["writeBoundary"] ''
     if [[ -x /opt/homebrew/bin/herdr && -d ${lib.escapeShellArg "${config.home.homeDirectory}/.codex"} ]]; then
       $DRY_RUN_CMD /opt/homebrew/bin/herdr integration install codex
+    fi
+  '';
+
+  # Link the pinned plugin source rather than downloading an unpinned copy at
+  # activation time. Re-linking is idempotent and follows flake.lock updates.
+  home.activation.linkHerdrCliampPlugin = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    if [[ -x /opt/homebrew/bin/herdr ]]; then
+      $DRY_RUN_CMD /opt/homebrew/bin/herdr plugin link --enabled \
+        ${lib.escapeShellArg "${inputs.herdr-cliamp}"}
     fi
   '';
 }

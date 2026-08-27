@@ -25,6 +25,11 @@
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     ghostty.url = "github:ghostty-org/ghostty";
+
+    herdr-cliamp = {
+      url = "github:coryshaw1/herdr-cliamp";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {
