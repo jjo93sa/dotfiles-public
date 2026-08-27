@@ -19,8 +19,8 @@
   # activation time. Re-linking is idempotent and follows flake.lock updates.
   home.activation.linkHerdrCliampPlugin = lib.hm.dag.entryAfter ["writeBoundary"] ''
     if [[ -x /opt/homebrew/bin/herdr ]]; then
-      $DRY_RUN_CMD /opt/homebrew/bin/herdr plugin link --enabled \
-        ${lib.escapeShellArg "${inputs.herdr-cliamp}"}
+      $DRY_RUN_CMD /opt/homebrew/bin/herdr plugin link \
+        ${lib.escapeShellArg "${inputs.herdr-cliamp}"} --enabled
     fi
   '';
 }
