@@ -10,8 +10,15 @@ keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 -- map \nh to switch off search highlighting
 keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 
--- don't copy deleted char to buffer
--- keymap.set("n", "x", '"_x"')
+-- Keep the system clipboard available for pasting while retaining removed text
+-- in a dedicated Neovim register.
+keymap.set({ "n", "x" }, "d", '"dd', { desc = "Delete into register d" })
+keymap.set({ "n", "x" }, "c", '"dc', { desc = "Change into register d" })
+keymap.set({ "n", "x" }, "x", '"dx', { desc = "Delete character into register d" })
+keymap.set({ "n", "x" }, "s", '"ds', { desc = "Substitute into register d" })
+
+-- Copy a Visual selection explicitly without deleting it.
+keymap.set("x", "<D-c>", '"+y', { desc = "Copy selection to system clipboard" })
 
 -- \+ to increment number; \- to decrement number
 keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
