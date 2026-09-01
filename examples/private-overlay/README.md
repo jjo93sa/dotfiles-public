@@ -57,10 +57,25 @@ nix eval --raw '.#homeConfigurations.example@example-vm.activationPackage.drvPat
 
 ## Activate a host
 
-On a Darwin machine already using nix-darwin:
+For the first activation, before `darwin-rebuild` and `nh` are installed:
+
+```sh
+sudo nix --extra-experimental-features "nix-command flakes" \
+  run nix-darwin/master#darwin-rebuild -- \
+  switch --flake .#example-mac
+```
+
+On a Darwin machine already using nix-darwin, either use the traditional
+command:
 
 ```sh
 sudo darwin-rebuild switch --flake .#example-mac
+```
+
+or the equivalent `nh` command:
+
+```sh
+nh darwin switch .#example-mac
 ```
 
 On an Ubuntu VM, after installing Nix with flakes enabled, activate the

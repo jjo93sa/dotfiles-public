@@ -6,6 +6,9 @@
   # flake-parts module that can contribute outputs without editing this file.
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # Used narrowly for security-sensitive packages awaiting promotion to
+    # nixos-unstable; see modules/darwin/tailscale.nix.
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
 
     flake-parts.url = "github:hercules-ci/flake-parts";

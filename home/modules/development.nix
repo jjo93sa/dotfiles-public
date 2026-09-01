@@ -17,6 +17,7 @@
     ripgrep
     shellcheck
     shfmt
+    tio
     yamllint
     yq-go
   ];

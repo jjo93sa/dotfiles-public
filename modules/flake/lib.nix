@@ -18,6 +18,7 @@
     homebrew = ../darwin/homebrew.nix;
     macos-defaults = ../darwin/macos-defaults.nix;
     system = ../darwin/system.nix;
+    tailscale = ../darwin/tailscale.nix;
   };
 
   flake.homeModules = {
