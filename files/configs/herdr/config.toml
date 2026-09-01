@@ -67,3 +67,9 @@ accent = "#83a598"
 pane_borders = true
 pane_gaps = true
 show_agent_labels_on_pane_borders = true
+
+[ui.toast]
+delivery = "herdr"
+
+[ui.toast.herdr]
+position = "top-right"
