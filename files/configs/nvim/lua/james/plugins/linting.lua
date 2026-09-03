@@ -15,6 +15,7 @@ return {
 		}
 
 		lint.linters_by_ft = {
+			nix = { "statix", "deadnix" },
 			python = { "pylint" },
 		}
 

@@ -1,6 +1,8 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     (python3.withPackages (ps: with ps; [pip virtualenv]))
+    alejandra
+    deadnix
     fd
     gh
     glab
@@ -17,6 +19,7 @@
     ripgrep
     shellcheck
     shfmt
+    statix
     tio
     yamllint
     yq-go

@@ -152,6 +152,19 @@ return {
 
 		setup("tflint")
 
+		-- configure Nix server
+		setup("nixd", {
+			capabilities = capabilities,
+			on_attach = on_attach,
+			settings = {
+				nixd = {
+					formatting = {
+						command = { "alejandra" },
+					},
+				},
+			},
+		})
+
 		-- configure lua server (with special settings)
 		-- setup("lua_ls",({
 		-- 	capabilities = capabilities,
