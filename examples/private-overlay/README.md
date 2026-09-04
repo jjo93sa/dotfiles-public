@@ -20,15 +20,31 @@ or organization-specific value is required in the public repository.
    repository, such as `github:your-user/dotfiles`.
 4. Replace the synthetic identity, hostnames, systems, and local module names.
    One private flake may define any number of Darwin and Linux hosts.
-5. Add private modules under `hosts/<hostname>/`. These may add to, override,
-   or omit the public modules selected in `flake.nix`.
+5. Keep machine-wide nix-darwin modules under `hosts/<hostname>/` and
+   user-level Home Manager modules under `home/<username>/`. Reusable private
+   modules may live under `modules/`, with their configuration payloads under
+   `files/`.
 6. Pin the public repository and all of its transitive inputs, then commit the
    resulting lock file:
 
    ```sh
    nix flake lock
-   git add flake.nix flake.lock hosts
+   git add flake.nix flake.lock home hosts
    ```
+
+The included Just recipes create valid empty modules without overwriting
+existing files:
+
+```sh
+# Standalone Home Manager host
+just scaffold-home alice dev-vm
+
+# Darwin host plus its Home Manager profile
+just scaffold-darwin-host alice alice-mac
+```
+
+After scaffolding, add the returned paths to the appropriate `homeModules` and
+`darwinModules` lists in `flake.nix`.
 
 Keep credentials and private keys out of the Nix source even though the
 repository is private. Refer to an external secret manager or encrypted secret

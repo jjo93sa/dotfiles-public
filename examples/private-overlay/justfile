@@ -1,0 +1,29 @@
+set shell := ["bash", "-uc"]
+
+# Create a standalone Home Manager module without overwriting an existing file.
+scaffold-home username hostname:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    [[ "{{username}}" =~ ^[a-zA-Z0-9._-]+$ ]] || { echo "invalid username" >&2; exit 2; }
+    [[ "{{hostname}}" =~ ^[a-zA-Z0-9._-]+$ ]] || { echo "invalid hostname" >&2; exit 2; }
+    target="home/{{username}}/{{hostname}}.nix"
+    [[ ! -e "$target" ]] || { echo "$target already exists" >&2; exit 1; }
+    mkdir -p "$(dirname "$target")"
+    printf '%s\n' '{...}: {' '  programs.home-manager.enable = true;' '  home.stateVersion = "25.05";' '}' > "$target"
+    echo "created $target"
+
+# Create matching nix-darwin and Home Manager modules for a Darwin host.
+scaffold-darwin-host username hostname:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    [[ "{{username}}" =~ ^[a-zA-Z0-9._-]+$ ]] || { echo "invalid username" >&2; exit 2; }
+    [[ "{{hostname}}" =~ ^[a-zA-Z0-9._-]+$ ]] || { echo "invalid hostname" >&2; exit 2; }
+    darwin_target="hosts/{{hostname}}/configuration.nix"
+    home_target="home/{{username}}/{{hostname}}.nix"
+    for target in "$darwin_target" "$home_target"; do
+      [[ ! -e "$target" ]] || { echo "$target already exists" >&2; exit 1; }
+    done
+    mkdir -p "$(dirname "$darwin_target")" "$(dirname "$home_target")"
+    printf '%s\n' '{...}: {' '  # Add host-specific nix-darwin configuration here.' '}' > "$darwin_target"
+    printf '%s\n' '{...}: {' '  programs.home-manager.enable = true;' '  home.stateVersion = "25.05";' '}' > "$home_target"
+    printf 'created %s\ncreated %s\n' "$darwin_target" "$home_target"

@@ -28,7 +28,7 @@
         dotfiles.homeModules.common
         dotfiles.homeModules.pay-respects
         dotfiles.homeModules.atuin
-        ./hosts/example-mac/home.nix
+        ./home/example/example-mac.nix
       ];
     };
 
@@ -41,7 +41,7 @@
         dotfiles.homeModules.common
         dotfiles.homeModules.pay-respects
         dotfiles.homeModules.atuin
-        ./hosts/example-vm/home.nix
+        ./home/example/example-vm.nix
       ];
     };
   in {

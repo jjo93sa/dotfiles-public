@@ -29,6 +29,13 @@ examples/private-overlay/
   Synthetic, copyable private-flake entry point and host compositions.
 ```
 
+Private overlays follow a scope-based layout: machine-wide nix-darwin modules
+live at `hosts/<hostname>/configuration.nix`, while user-level Home Manager
+modules live at `home/<username>/<hostname>.nix`. Private modules reused by
+multiple hosts belong under `modules/`, and their payloads belong under
+`files/`. The example overlay includes Just recipes for scaffolding these
+paths.
+
 `import-tree` recursively discovers the flake-parts modules beneath
 `modules/flake`, so adding a module there does not require maintaining an
 import index.
