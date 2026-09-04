@@ -28,6 +28,7 @@ in {
             useGlobalPkgs = false;
             useUserPackages = true;
             backupFileExtension = "hm-backup";
+            overwriteBackup = true;
             extraSpecialArgs = specialArgs;
             users.${userConfig.name}.imports = homeModules;
           };
