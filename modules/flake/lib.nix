@@ -42,7 +42,6 @@
     pay-respects = ../../home/modules/pay-respects.nix;
     scripts = ../../home/modules/scripts.nix;
     starship = ../../home/modules/starship.nix;
-    tmux = ../../home/modules/tmux.nix;
     yamllint = ../../home/modules/yamllint.nix;
     zoxide = ../../home/modules/zoxide.nix;
     zsh = ../../home/modules/zsh.nix;

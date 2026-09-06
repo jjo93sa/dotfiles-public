@@ -16,7 +16,6 @@
     ../modules/neovim.nix
     #../modules/scripts.nix
     ../modules/starship.nix
-    ../modules/tmux.nix
     ../modules/yamllint.nix
     ../modules/zoxide.nix
     ../modules/zsh.nix

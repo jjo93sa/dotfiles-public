@@ -6,6 +6,7 @@
     fd
     gh
     glab
+    grepcidr
     jq
     just
     k9s
