@@ -1,7 +1,8 @@
 {
   lib,
   pkgs,
-  ... }: {
+  ...
+}: {
   # home.packages = with pkgs; [
   #   ghostty
   # ];
@@ -22,7 +23,8 @@
       font-size = 16;
       # font-thicken = true;
       keybind = [
-        "global:cmd+grave_accent=toggle_quick_terminal"
+        "cmd+enter=unbind"
+        "global:ctrl+grave_accent=toggle_quick_terminal"
         "global:alt+b=esc:b"
         "global:alt+f=esc:f"
       ];
