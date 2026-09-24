@@ -17,6 +17,14 @@
       pull.rebase = true;
       core.editor = "nvim";
       pager.branch = "cat";
+
+      # Produce clearer diffs and retain useful context during conflict
+      # resolution. Rerere records resolutions per repository and can reuse
+      # them when an equivalent conflict is encountered again.
+      diff.algorithm = "histogram";
+      merge.conflictStyle = "zdiff3";
+      rerere.enabled = true;
+
       alias = {
         cd = "!cd `git rev-parse --show-toplevel`";
         root = "!pwd";

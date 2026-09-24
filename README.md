@@ -24,6 +24,16 @@ See [`docs/maintenance-guide.md`](docs/maintenance-guide.md) for the repository
 structure, module evaluation flow, update workflow, and debugging commands.
 Outstanding work is tracked in [`docs/backlog.md`](docs/backlog.md).
 
+## Git hooks
+
+Enable the repository-managed hooks once per clone:
+
+```sh
+git config --local core.hooksPath .githooks
+```
+
+The pre-commit hook runs `git diff --cached --check` against staged changes.
+
 ## Neovim plugin updates
 
 Most Neovim plugins are managed by Lazy and pinned in
