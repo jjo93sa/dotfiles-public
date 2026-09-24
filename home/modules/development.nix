@@ -21,6 +21,7 @@
     shellcheck
     shfmt
     statix
+    tree-sitter
     tio
     yamllint
     yq-go

@@ -22,3 +22,16 @@ for setup, evaluation, and activation commands.
 
 See [`docs/maintenance-guide.md`](docs/maintenance-guide.md) for the repository
 structure, module evaluation flow, update workflow, and debugging commands.
+
+## Neovim plugin updates
+
+Most Neovim plugins are managed by Lazy and pinned in
+`files/configs/nvim/lazy-lock.json`. The active configuration is linked through
+the Nix store, so update plugins from the mutable repository checkout instead:
+
+```sh
+just update-nvim-plugins
+```
+
+Review and test the resulting lock-file diff before committing it and updating
+the public flake input in consuming repositories.

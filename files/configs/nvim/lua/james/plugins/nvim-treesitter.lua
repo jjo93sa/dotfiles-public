@@ -2,62 +2,46 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		lazy = false,
-		branch = "master",
-		event = { "BufReadPre", "BufNewFile" },
+		branch = "main",
 		build = ":TSUpdate",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter-textobjects",
 			"windwp/nvim-ts-autotag",
 		},
 		config = function()
-			-- import nvim-treesitter plugin
-			local treesitter = require("nvim-treesitter.configs")
+			local treesitter = require("nvim-treesitter")
+			local parsers = {
+				"json",
+				"javascript",
+				"typescript",
+				"tsx",
+				"html",
+				"css",
+				"prisma",
+				"markdown",
+				"markdown_inline",
+				"svelte",
+				"graphql",
+				"bash",
+				"lua",
+				"nix",
+				"vim",
+				"dockerfile",
+				"gitignore",
+				"query",
+			}
 
-			-- configure treesitter
-			treesitter.setup({ -- enable syntax highlighting
-				highlight = {
-					enable = true,
-				},
-				-- enable indentation
-				indent = { enable = true },
-				-- enable autotagging (w/ nvim-ts-autotag plugin)
-				autotag = {
-					enable = true,
-				},
-				-- ensure these language parsers are installed
-				ensure_installed = {
-					"json",
-					"javascript",
-					"typescript",
-					"tsx",
-					--          "yaml",
-					"html",
-					"css",
-					"prisma",
-					"markdown",
-					"markdown_inline",
-					"svelte",
-					"graphql",
-					"bash",
-					"lua",
-					"nix",
-					"vim",
-					"dockerfile",
-					"gitignore",
-					"query",
-				},
-				incremental_selection = {
-					enable = true,
-					keymaps = {
-						init_selection = "<C-space>",
-						node_incremental = "<C-space>",
-						scope_incremental = false,
-						node_decremental = "<bs>",
-					},
-				},
+			treesitter.install(parsers)
+
+			vim.api.nvim_create_autocmd("FileType", {
+				callback = function()
+					if pcall(vim.treesitter.start) then
+						vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+					end
+				end,
 			})
 
-			-- enable nvim-ts-context-commentstring plugin for commenting tsx and jsx
+			require("nvim-ts-autotag").setup({})
 			require("ts_context_commentstring").setup({})
 		end,
 	},
