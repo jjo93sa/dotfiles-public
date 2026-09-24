@@ -22,6 +22,7 @@ for setup, evaluation, and activation commands.
 
 See [`docs/maintenance-guide.md`](docs/maintenance-guide.md) for the repository
 structure, module evaluation flow, update workflow, and debugging commands.
+Outstanding work is tracked in [`docs/backlog.md`](docs/backlog.md).
 
 ## Neovim plugin updates
 
