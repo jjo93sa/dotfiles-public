@@ -3,9 +3,11 @@
   programs.pay-respects = {
     enable = true;
     enableZshIntegration = true;
+    options = [
+      "--alias"
+      "fuck"
+    ];
   };
-
-  programs.zsh.shellAliases.fuck = "pay-respects";
 
   # Store-manage the configuration so it works regardless of where the flake
   # is checked out. Rebuild Home Manager after editing the source directory.
