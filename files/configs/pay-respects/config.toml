@@ -15,4 +15,4 @@ eval_method = "Internal"
 # available options are:
 # - System
 # - Shell (nix and guix only)
-install_method = "System"
+install_method = "Shell"
