@@ -49,3 +49,9 @@ keymap.set("n", "<leader>s", "<cmd>set nolist!<CR>", { desc = "Show white space"
 --vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
 --vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
 --vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true, noremap = true })
+
+-- split movement
+keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move to left split" })
+keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to lower split" })
+keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to upper split" })
+keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to right split" })
