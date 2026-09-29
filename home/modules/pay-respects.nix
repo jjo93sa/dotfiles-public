@@ -1,4 +1,15 @@
-{...}: {
+{inputs, ...}: {
+  imports = [
+    inputs.nix-index-database.homeModules.default
+  ];
+
+  programs.nix-index = {
+    enable = true;
+
+    # Let pay-respects remain the command-not-found handler.
+    enableZshIntegration = false;
+  };
+
   # Install pay-respects via home-manager module
   programs.pay-respects = {
     enable = true;
