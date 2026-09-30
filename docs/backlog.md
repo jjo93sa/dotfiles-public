@@ -19,9 +19,6 @@ tasks belong in the corresponding private repository.
 - Review the Neovim Tree-sitter configuration now that it uses the Neovim 0.12
   API. Restore incremental selection and consider structural folding,
   navigation, and other useful language-aware operations.
-- Diagnose the `pay-respects` package-search warning. Decide whether to install
-  and configure `nix-index`/`nix-locate` or another supported search backend so
-  failed commands do not report that package search is unavailable.
 - Investigate replacing the Homebrew `1password-cli` package with nixpkgs and
   whether the macOS 1Password GUI from nixpkgs preserves the required browser,
   SSH-agent, biometric, update, and code-signing behaviour. Make this usable by
