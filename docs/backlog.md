@@ -23,9 +23,6 @@ tasks belong in the corresponding private repository.
   whether the macOS 1Password GUI from nixpkgs preserves the required browser,
   SSH-agent, biometric, update, and code-signing behaviour. Make this usable by
   private overlays without forcing the same choice on every host.
-- Remove the vendored `files/configs/nvim/pack/plugins/start/ansible-vim` tree
-  if a final check confirms that the Lazy-managed `pearofducks/ansible-vim`
-  plugin completely replaces it.
 
 ## Temporary pins
 
