@@ -46,3 +46,6 @@ just update-nvim-plugins
 
 Review and test the resulting lock-file diff before committing it and updating
 the public flake input in consuming repositories.
+
+See [`docs/neovim-treesitter.md`](docs/neovim-treesitter.md) for the configured
+language support and practical syntax-aware editing shortcuts.
