@@ -8,6 +8,7 @@ $username\
 $hostname\
 $directory\
 $git_branch\
+$git_commit\
 $git_status\
 $python\
 $nix_shell\
@@ -60,6 +61,11 @@ truncation_symbol = "…/"
 symbol = ""
 style = "aqua"
 format = "[$symbol $branch]($style) "
+
+[git_commit]
+only_detached = false
+style = "aqua"
+format = "[($hash)]($style) "
 
 [git_status]
 style = "aqua"
