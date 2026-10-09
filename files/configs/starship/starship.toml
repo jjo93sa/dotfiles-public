@@ -139,7 +139,7 @@ format = '[[ $symbol $branch ](fg:color_bg_dim bg:color_aqua)]($style)'
 [git_commit]
 only_detached = false
 style = "bg:color_aqua"
-format = '[[($hash) ](fg:color_bg_dim bg:color_aqua)]($style)'
+format = '[[({$hash}) ](fg:color_bg_dim bg:color_aqua)]($style)'
 
 [git_status]
 style = "bg:color_aqua"
