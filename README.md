@@ -24,6 +24,26 @@ See [`docs/maintenance-guide.md`](docs/maintenance-guide.md) for the repository
 structure, module evaluation flow, update workflow, and debugging commands.
 Outstanding work is tracked in [`docs/backlog.md`](docs/backlog.md).
 
+## Bootstrap Nix
+
+If Just is already available, install Nix with flakes enabled by running:
+
+```sh
+just install-nix
+```
+
+On a fresh machine without Just, invoke the official NixOS community installer
+directly:
+
+```sh
+curl -sSfL https://artifacts.nixos.org/nix-installer |
+  sh -s -- install --enable-flakes
+```
+
+Start a new login shell after installation, then clone the appropriate private
+flake and follow its first-activation instructions. Just and the rest of the
+development toolset become Nix-managed after that activation.
+
 ## Git hooks
 
 Enable the repository-managed hooks once per clone:
@@ -33,6 +53,20 @@ git config --local core.hooksPath .githooks
 ```
 
 The pre-commit hook runs `git diff --cached --check` against staged changes.
+
+## Repository checks
+
+The root Justfile provides the routine validation commands:
+
+```sh
+just check              # Evaluate without building.
+just check-all-systems  # Evaluate every supported system without building.
+just format-check       # Check Nix formatting without rewriting files.
+just test               # Build checks supported by this machine.
+```
+
+These recipes use `path:.` so that evaluation includes the complete working
+tree, including new files that have not yet been added to Git.
 
 ## Neovim plugin updates
 

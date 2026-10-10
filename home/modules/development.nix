@@ -16,6 +16,7 @@
     nh
     nixd
     pipenv
+    pre-commit
     pv
     ripgrep
     shellcheck
