@@ -1,4 +1,9 @@
-{pkgs, config, lib, ...}: {
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}: {
   # Link ZSH function directory
   xdg.configFile = {
     "zsh/zsh_funcs" = {
@@ -167,12 +172,11 @@
     sessionVariables = {
       EZA_CONFIG_DIR = "${config.home.homeDirectory}/.config/eza";
       OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
-      KEYTIMEOUT= "40";
+      KEYTIMEOUT = "40";
       ZVM_VI_EDITOR = "nvim";
       ZVM_VI_INSERT_ESCAPE_BINDKEY = "jk";
       ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=5";
     };
     syntaxHighlighting.enable = true;
-
   };
 }

@@ -5,7 +5,7 @@
   # For example: github:your-user/dotfiles
   inputs.dotfiles.url = "github:example/dotfiles";
 
-  outputs = inputs@{dotfiles, ...}: let
+  outputs = inputs @ {dotfiles, ...}: let
     exampleUser = {
       name = "example";
       fullName = "Example User";

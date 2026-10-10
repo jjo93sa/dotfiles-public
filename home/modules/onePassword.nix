@@ -1,4 +1,8 @@
-{config, lib, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.onePassword;
 in {
   options.onePassword.sshAgentKeys = lib.mkOption {

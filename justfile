@@ -11,9 +11,13 @@ check:
 check-all-systems:
     nix flake check --no-build --all-systems path:.
 
-# Check Nix formatting without modifying files.
+# Check Nix formatting using Alejandra without modifying files.
 format-check:
     nix fmt path:. -- --check .
+
+# Format all Nix files using Alejandra in the repository.
+format:
+    nix fmt path:. -- .
 
 # Install Nix with flakes enabled when Just is already available.
 install-nix:
