@@ -32,6 +32,11 @@ opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
 
 -- clipboard
+-- Use the local terminal's clipboard from remote SSH sessions.
+if vim.env.SSH_TTY or vim.env.SSH_CONNECTION then
+	vim.g.clipboard = "osc52"
+end
+
 opt.clipboard:append("unnamedplus") -- use system clipboard as default register
 
 -- split windows

@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   # Neovim text editor configuration
   programs.neovim = {
     enable = true;
@@ -26,4 +30,9 @@
       force = true;
     };
   };
+
+  home.packages = lib.optionals pkgs.stdenv.hostPlatform.isLinux [
+    pkgs.stdenv.cc
+    pkgs.gnumake
+  ];
 }
