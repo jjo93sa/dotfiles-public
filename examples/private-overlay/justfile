@@ -27,3 +27,27 @@ scaffold-darwin-host username hostname:
     printf '%s\n' '{...}: {' '  # Add host-specific nix-darwin configuration here.' '}' > "$darwin_target"
     printf '%s\n' '{...}: {' '  programs.home-manager.enable = true;' '  home.stateVersion = "25.05";' '}' > "$home_target"
     printf 'created %s\ncreated %s\n' "$darwin_target" "$home_target"
+
+# Create matching NixOS and Home Manager modules for a Linux host.
+scaffold-linux-host username hostname:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    [[ "{{username}}" =~ ^[a-zA-Z0-9._-]+$ ]] || { echo "invalid username" >&2; exit 2; }
+    [[ "{{hostname}}" =~ ^[a-zA-Z0-9._-]+$ ]] || { echo "invalid hostname" >&2; exit 2; }
+    nixos_target="hosts/{{hostname}}/configuration.nix"
+    home_target="home/{{username}}/{{hostname}}.nix"
+    for target in "$nixos_target" "$home_target"; do
+      [[ ! -e "$target" ]] || { echo "$target already exists" >&2; exit 1; }
+    done
+    mkdir -p "$(dirname "$nixos_target")" "$(dirname "$home_target")"
+    printf '%s\n' \
+      '{hostname, userConfig, ...}: {' \
+      '  networking.hostName = hostname;' \
+      '  # Replace these synthetic disk assumptions before installation.' \
+      '  fileSystems."/" = { device = "/dev/disk/by-label/nixos"; fsType = "ext4"; };' \
+      '  boot.loader.grub = { enable = true; devices = [ "/dev/sda" ]; };' \
+      '  users.users.${userConfig.name}.isNormalUser = true;' \
+      '  system.stateVersion = "26.05";' \
+      '}' > "$nixos_target"
+    printf '%s\n' '{...}: {' '  programs.home-manager.enable = true;' '  home.stateVersion = "26.05";' '}' > "$home_target"
+    printf 'created %s\ncreated %s\n' "$nixos_target" "$home_target"

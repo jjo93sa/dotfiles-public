@@ -2,8 +2,8 @@
 
 This directory is a copyable starting point for a private flake that consumes
 the reusable constructors and modules from the public dotfiles repository. It
-contains synthetic Darwin and Ubuntu hosts; no real hostname, account, secret,
-or organization-specific value is required in the public repository.
+contains synthetic Darwin, Ubuntu, and NixOS hosts; no real hostname, account,
+secret, or organization-specific value is required in the public repository.
 
 ## Create the private repository
 
@@ -41,10 +41,13 @@ just scaffold-home alice dev-vm
 
 # Darwin host plus its Home Manager profile
 just scaffold-darwin-host alice alice-mac
+
+# NixOS host plus its integrated Home Manager profile
+just scaffold-linux-host alice alice-server
 ```
 
 After scaffolding, add the returned paths to the appropriate `homeModules` and
-`darwinModules` lists in `flake.nix`.
+`darwinModules` or `nixosModules` lists in `flake.nix`.
 
 Keep credentials and private keys out of the Nix source even though the
 repository is private. Refer to an external secret manager or encrypted secret
@@ -69,6 +72,12 @@ Evaluate the standalone Home Manager profile used by the Ubuntu VM:
 
 ```sh
 nix eval --raw '.#homeConfigurations.example@example-vm.activationPackage.drvPath'
+```
+
+Evaluate the complete NixOS server without building or activating it:
+
+```sh
+nix eval --raw '.#nixosConfigurations.example-server.config.system.build.toplevel.drvPath'
 ```
 
 ## Activate a host
@@ -107,6 +116,16 @@ not turn Ubuntu into NixOS or manage the operating system itself. An automated
 bootstrap can install Nix, clone the private repository, and run that Home
 Manager command—for example from Ansible's final-boot hook.
 
+On the NixOS server, one command activates both the operating system and its
+integrated Home Manager profile:
+
+```sh
+sudo nixos-rebuild switch --flake .#example-server
+```
+
+Use `mkHomeHost` for a user profile layered onto an existing distribution such
+as Ubuntu. Use `mkLinuxHost` when the flake owns the complete NixOS machine.
+
 ## Test this template while developing the public repository
 
 The checked-in example points at a deliberately inert placeholder URL. From
@@ -118,4 +137,7 @@ nix eval --no-write-lock-file --override-input dotfiles path:. --raw \
 
 nix eval --no-write-lock-file --override-input dotfiles path:. --raw \
   'path:./examples/private-overlay#homeConfigurations.example@example-vm.activationPackage.drvPath'
+
+nix eval --no-write-lock-file --override-input dotfiles path:. --raw \
+  'path:./examples/private-overlay#nixosConfigurations.example-server.config.system.build.toplevel.drvPath'
 ```

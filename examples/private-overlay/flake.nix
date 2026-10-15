@@ -44,10 +44,26 @@
         ./home/example/example-vm.nix
       ];
     };
+
+    exampleServer = dotfiles.lib.mkLinuxHost {
+      hostname = "example-server";
+      system = "x86_64-linux";
+      userConfig = exampleUser;
+      extraSpecialArgs.privateInputs = inputs;
+      nixosModules = [./hosts/example-server/configuration.nix];
+      homeModules = [
+        dotfiles.homeModules.common
+        dotfiles.homeModules.pay-respects
+        dotfiles.homeModules.atuin
+        ./home/example/example-server.nix
+      ];
+    };
   in {
     darwinConfigurations.example-mac = exampleMac.darwinConfiguration;
+    nixosConfigurations.example-server = exampleServer.nixosConfiguration;
     homeConfigurations = {
       "example@example-mac" = exampleMac.homeConfiguration;
+      "example@example-server" = exampleServer.homeConfiguration;
       "example@example-vm" = exampleVm.homeConfiguration;
     };
   };
