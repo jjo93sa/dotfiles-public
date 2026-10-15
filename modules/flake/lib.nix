@@ -11,6 +11,10 @@
     inherit inputs;
     outputs = self;
   };
+  flake.lib.mkLinuxHost = import ../../lib/mkLinuxHost.nix {
+    inherit inputs;
+    outputs = self;
+  };
 
   flake.darwinModules = {
     development = ../darwin/development.nix;

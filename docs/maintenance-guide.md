@@ -51,7 +51,7 @@ private flake.nix
   |
   +-- pinned dotfiles-public input
   |
-  +-- dotfiles.lib.mkDarwinHost or mkHomeHost
+  +-- dotfiles.lib.mkDarwinHost, mkLinuxHost, or mkHomeHost
         |
         +-- private identity, hostname, platform, and special arguments
         +-- selected public modules
@@ -60,9 +60,11 @@ private flake.nix
 ```
 
 `mkDarwinHost` returns both a nix-darwin configuration and a standalone Home
-Manager configuration. `mkHomeHost` returns a standalone Home Manager
-configuration, suitable for a user environment on an existing Linux system
-such as Ubuntu. The Linux constructor does not turn that system into NixOS.
+Manager configuration. `mkLinuxHost` does the same for a NixOS system, adding
+Home Manager as a NixOS module so the system and user profile activate
+together. `mkHomeHost` returns only a standalone Home Manager configuration,
+suitable for a user environment on an existing Linux system such as Ubuntu;
+it does not turn that system into NixOS.
 
 Every module participating in one evaluation receives the standard module
 arguments (`config`, `lib`, `options`, and so on). Constructors pass additional

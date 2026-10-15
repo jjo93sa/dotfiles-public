@@ -12,6 +12,8 @@ identity and hosts, and point its `dotfiles` input at this repository.
 
 - `lib.mkDarwinHost` constructs a nix-darwin system and matching standalone
   Home Manager profile.
+- `lib.mkLinuxHost` constructs a NixOS system with an integrated Home Manager
+  profile, plus a matching standalone Home Manager profile.
 - `lib.mkHomeHost` constructs a standalone Home Manager profile for Linux or
   Darwin.
 - `darwinModules` exposes reusable machine-wide macOS capabilities.
