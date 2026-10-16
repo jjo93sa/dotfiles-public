@@ -4,8 +4,8 @@ format = """
 $cmd_duration\
 $time\
 $line_break\
-${custom.ssh_identity}\
-${custom.local_root_identity}\
+$username\
+$hostname\
 $directory\
 $git_branch\
 $git_commit\
@@ -33,17 +33,16 @@ purple = "#b16286"
 aqua = "#689d6a"
 orange = "#d65d0e"
 
-[custom.ssh_identity]
-when = 'test -n "$SSH_CONNECTION"'
-command = 'printf "%s@%s" "$USER" "$(hostname -s)"'
-style = "red bold"
-format = "[$output]($style) "
+[username]
+show_always = false
+style_user = "red bold"
+style_root = "red"
+format = "[$user]($style)"
 
-[custom.local_root_identity]
-when = 'test -z "$SSH_CONNECTION" && test "$(id -u)" -eq 0'
-command = "printf root"
-style = "red"
-format = "[$output]($style) "
+[hostname]
+ssh_only = true
+style = "red bold"
+format = "[@$hostname]($style) "
 
 [directory]
 style = "yellow"

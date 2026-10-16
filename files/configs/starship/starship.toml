@@ -4,11 +4,11 @@ format = """
 $cmd_duration\
 $time\
 $line_break\
-${custom.local_prompt_cap}\
-${custom.ssh_prompt_cap}\
-${custom.ssh_identity}\
-${custom.ssh_prompt_transition}\
-${custom.local_root_identity}\
+[](color_yellow)\
+${env_var.SSH_PROMPT_START}\
+$username\
+$hostname\
+${env_var.SSH_PROMPT_END}\
 $directory\
 [](fg:color_yellow bg:color_aqua)\
 $git_branch\
@@ -109,35 +109,26 @@ Redhat = "󱄛"
 RedHatEnterprise = "󱄛"
 Pop = ""
 
-[custom.local_prompt_cap]
-when = 'test -z "$SSH_CONNECTION"'
-command = "printf x"
-style = "color_yellow"
-format = '[]($style)'
-
-[custom.ssh_prompt_cap]
-when = 'test -n "$SSH_CONNECTION"'
-command = "printf x"
-style = "color_red"
-format = '[]($style)'
-
-[custom.ssh_identity]
-when = 'test -n "$SSH_CONNECTION"'
-command = 'printf "%s@%s" "$USER" "$(hostname -s)"'
-style = "bg:color_red fg:color_fg1 bold"
-format = '[ $output ]($style)'
-
-[custom.ssh_prompt_transition]
-when = 'test -n "$SSH_CONNECTION"'
-command = "printf x"
-style = "fg:color_red bg:color_yellow"
+[env_var.SSH_PROMPT_START]
+variable = "SSH_CONNECTION"
+style = "fg:color_yellow bg:color_red"
 format = '[]($style)'
 
-[custom.local_root_identity]
-when = 'test -z "$SSH_CONNECTION" && test "$(id -u)" -eq 0'
-command = "printf root"
-style = "bg:color_yellow fg:color_red"
-format = '[ $output ]($style)'
+[username]
+show_always = false
+style_user = "bg:color_red fg:color_fg1 bold"
+style_root = "bg:color_yellow fg:color_red"
+format = '[ $user]($style)'
+
+[hostname]
+ssh_only = true
+style = "bg:color_red fg:color_fg1 bold"
+format = '[@$hostname ]($style)'
+
+[env_var.SSH_PROMPT_END]
+variable = "SSH_CONNECTION"
+style = "fg:color_red bg:color_yellow"
+format = '[]($style)'
 
 [directory]
 style = "fg:color_bg_dim bg:color_yellow"
