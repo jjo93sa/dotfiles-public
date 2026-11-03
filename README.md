@@ -48,13 +48,17 @@ development toolset become Nix-managed after that activation.
 
 ## Git hooks
 
-Enable the repository-managed hooks once per clone:
+Install the pre-commit framework hook once per clone, after activating the Nix
+configuration (which supplies `just` and `pre-commit`):
 
 ```sh
-git config --local core.hooksPath .githooks
+just hooks-install
 ```
 
-The pre-commit hook runs `git diff --cached --check` against staged changes.
+The recipe removes the old `.githooks` override if present, then installs the
+hook in Git's standard `.git/hooks` directory. It leaves unrelated custom hook
+paths alone. The pre-commit hook runs `git diff --cached --check` against staged
+changes.
 
 ## Repository checks
 

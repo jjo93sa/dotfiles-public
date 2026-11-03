@@ -3,6 +3,26 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 default:
     @just --list
 
+# Install Git's standard pre-commit hook for this clone.
+hooks-install:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    command -v pre-commit >/dev/null || {
+      printf '%s\n' 'pre-commit is unavailable; activate the Nix configuration first.' >&2
+      exit 1
+    }
+
+    hooks_path="$(git config --local --get core.hooksPath || true)"
+    if [[ "$hooks_path" == .githooks ]]; then
+      git config --local --unset core.hooksPath
+    elif [[ -n "$hooks_path" ]]; then
+      printf 'Refusing to replace custom core.hooksPath: %s\n' "$hooks_path" >&2
+      exit 1
+    fi
+
+    pre-commit install
+
 # Evaluate the flake without building or activating anything.
 check:
     nix flake check --no-build path:.
