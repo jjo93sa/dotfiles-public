@@ -29,6 +29,7 @@
     atuin = ../../home/modules/atuin.nix;
     bat = ../../home/modules/bat.nix;
     btop = ../../home/modules/btop.nix;
+    cliamp = ../../home/modules/cliamp.nix;
     common = ../../home/modules/common.nix;
     development = ../../home/modules/development.nix;
     direnv = ../../home/modules/direnv.nix;
