@@ -42,14 +42,15 @@ return {
 				"query",
 			}
 
-			-- Parser installation is asynchronous. Avoid asking nvim-treesitter to
-			-- inspect every parser on every startup; only request parsers that are
-			-- not already present on the runtime path.
+			-- Parser installation is asynchronous. A parser can be present without
+			-- its highlighting query, so check for both before requesting an install.
 			local missing = vim.tbl_filter(function(parser)
 				return #vim.api.nvim_get_runtime_file("parser/" .. parser .. ".*", false) == 0
+					or #vim.api.nvim_get_runtime_file("queries/" .. parser .. "/highlights.scm", false) == 0
 			end, parsers)
 			if #missing > 0 then
-				treesitter.install(missing)
+				-- force also repairs an installed parser whose query is missing.
+				treesitter.install(missing, { force = true })
 			end
 
 			vim.api.nvim_create_autocmd("FileType", {
