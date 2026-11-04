@@ -3,10 +3,8 @@
   pkgs,
   ...
 }: {
-  # home.packages = with pkgs; [
-  #   ghostty
-  # ];
-  # # Install ghostty via home-manager module
+  # nix-darwin installs the app via ghostty-bin; Home Manager owns only its
+  # configuration and shell integration.
   programs.ghostty = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
     package = null;
     enable = true;

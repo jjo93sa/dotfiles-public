@@ -1,16 +1,24 @@
-{pkgs, ...}: let
+{
+  inputs,
+  pkgs,
+  ...
+}: let
+  ghosttyPkgs = inputs.nixpkgs-ghostty.legacyPackages.${pkgs.stdenv.hostPlatform.system};
   switchMyMagicVersion = "2.5";
   switchMyMagicArchive = pkgs.fetchurl {
     url = "https://switchmymagic.com/releases/SwitchMyMagic-${switchMyMagicVersion}.zip";
     hash = "sha256-mRTX08m+q3PD9wi/8eEPrImpplzpbzQF/buWXpe8+x8=";
   };
 in {
+  # Nixpkgs repackages Ghostty's official macOS release. Home Manager manages
+  # its settings separately, without installing a second copy of the app.
+  environment.systemPackages = [ghosttyPkgs.ghostty-bin];
+
   # Shared graphical applications installed through Homebrew casks.
   homebrew = {
     enable = true;
     casks = [
       "1password-cli"
-      "ghostty"
       "raycast"
     ];
   };

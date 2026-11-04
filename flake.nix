@@ -10,6 +10,8 @@
     # nixos-unstable; see modules/darwin/tailscale.nix.
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
+    # Keep Ghostty current without updating every host package at once.
+    nixpkgs-ghostty.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:denful/import-tree";
@@ -27,8 +29,6 @@
     };
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-    ghostty.url = "github:ghostty-org/ghostty";
-
     herdr-cliamp = {
       url = "github:coryshaw1/herdr-cliamp";
       flake = false;
