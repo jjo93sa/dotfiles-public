@@ -13,7 +13,7 @@
     settings = {
       copy-on-select = "clipboard";
       # Alternative: "Berkeley Mono".
-      font-family = "PragmataPro Mono Regular";
+      font-family = "PragmataPro Mono";
       # This installation only exposes the regular face, so Ghostty otherwise
       # synthesizes a noticeably heavy bold weight for terminal applications.
       font-style-bold = false;

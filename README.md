@@ -8,25 +8,19 @@ The intended entry point is a separate private flake. Copy
 [`examples/private-overlay`](examples/private-overlay), replace its synthetic
 identity and hosts, and point its `dotfiles` input at this repository.
 
-## Public outputs
+## Set up a new Mac
 
-- `lib.mkDarwinHost` constructs a nix-darwin system and matching standalone
-  Home Manager profile.
-- `lib.mkLinuxHost` constructs a NixOS system with an integrated Home Manager
-  profile, plus a matching standalone Home Manager profile.
-- `lib.mkHomeHost` constructs a standalone Home Manager profile for Linux or
-  Darwin.
-- `darwinModules` exposes reusable machine-wide macOS capabilities.
-- `homeModules` exposes reusable user-level capabilities.
+Install Apple's Command Line Tools before cloning a repository. On a fresh Mac,
+the system `git` command may prompt for them; you can start the installation
+explicitly and then verify Git works:
 
-See [`examples/private-overlay/README.md`](examples/private-overlay/README.md)
-for setup, evaluation, and activation commands.
+```sh
+xcode-select --install
+git --version
+```
 
-See [`docs/maintenance-guide.md`](docs/maintenance-guide.md) for the repository
-structure, module evaluation flow, update workflow, and debugging commands.
-Outstanding work is tracked in [`docs/backlog.md`](docs/backlog.md).
-
-## Bootstrap Nix
+If Command Line Tools are already installed, `xcode-select --install` will say
+so. Complete any installer dialog before continuing.
 
 If Just is already available, install Nix with flakes enabled by running:
 
@@ -45,6 +39,29 @@ curl -sSfL https://artifacts.nixos.org/nix-installer |
 Start a new login shell after installation, then clone the appropriate private
 flake and follow its first-activation instructions. Just and the rest of the
 development toolset become Nix-managed after that activation.
+
+Ghostty is configured to use the licensed PragmataPro Mono Regular font, but
+this flake does not install it. Install your licensed copy in macOS before
+expecting Ghostty to render with that face; until then, Ghostty may use a
+fallback font. The flake does install JetBrains Mono and Meslo Nerd Fonts.
+
+## Public outputs
+
+- `lib.mkDarwinHost` constructs a nix-darwin system and matching standalone
+  Home Manager profile.
+- `lib.mkLinuxHost` constructs a NixOS system with an integrated Home Manager
+  profile, plus a matching standalone Home Manager profile.
+- `lib.mkHomeHost` constructs a standalone Home Manager profile for Linux or
+  Darwin.
+- `darwinModules` exposes reusable machine-wide macOS capabilities.
+- `homeModules` exposes reusable user-level capabilities.
+
+See [`examples/private-overlay/README.md`](examples/private-overlay/README.md)
+for setup, evaluation, and activation commands.
+
+See [`docs/maintenance-guide.md`](docs/maintenance-guide.md) for the repository
+structure, module evaluation flow, update workflow, and debugging commands.
+Outstanding work is tracked in [`docs/backlog.md`](docs/backlog.md).
 
 ## Git hooks
 
