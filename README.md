@@ -40,10 +40,10 @@ Start a new login shell after installation, then clone the appropriate private
 flake and follow its first-activation instructions. Just and the rest of the
 development toolset become Nix-managed after that activation.
 
-Ghostty is configured to use the licensed PragmataPro Mono Regular font, but
-this flake does not install it. Install your licensed copy in macOS before
-expecting Ghostty to render with that face; until then, Ghostty may use a
-fallback font. The flake does install JetBrains Mono and Meslo Nerd Fonts.
+Ghostty is configured to use the licensed PragmataPro Mono family (its Regular
+face), but this flake does not install it. Install your licensed copy in macOS
+before expecting Ghostty to render with that face; until then, Ghostty may use
+a fallback font. The flake does install JetBrains Mono and Meslo Nerd Fonts.
 
 ## Public outputs
 
