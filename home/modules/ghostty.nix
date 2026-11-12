@@ -12,6 +12,8 @@
     #installBatSyntax = true;
     settings = {
       copy-on-select = "clipboard";
+      # Use a widely supported TERM on remote hosts without changing local sessions.
+      shell-integration-features = "ssh-env";
       # Alternative: "Berkeley Mono".
       font-family = "PragmataPro Mono Liga";
       # This installation only exposes the regular face, so Ghostty otherwise
