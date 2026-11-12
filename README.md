@@ -74,8 +74,8 @@ just hooks-install
 
 The recipe removes the old `.githooks` override if present, then installs the
 hook in Git's standard `.git/hooks` directory. It leaves unrelated custom hook
-paths alone. The pre-commit hook runs `git diff --cached --check` against staged
-changes.
+paths alone. The pre-commit hooks check staged whitespace and run
+`just format-check` across the repository.
 
 ## Repository checks
 
