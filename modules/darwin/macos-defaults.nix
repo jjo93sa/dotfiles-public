@@ -30,13 +30,6 @@
 
       controlcenter.Bluetooth = true;
 
-      # Safari's AutoFill preferences are per-user rather than global defaults.
-      CustomUserPreferences."com.apple.Safari" = {
-        AutoFillFromAddressBook = false;
-        AutoFillPasswords = false;
-        AutoFillCreditCardData = false;
-      };
-
       LaunchServices.LSQuarantine = false;
 
       trackpad = {
