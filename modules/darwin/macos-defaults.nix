@@ -13,6 +13,7 @@
 
       NSGlobalDomain = {
         AppleInterfaceStyle = "Dark";
+        AppleKeyboardUIMode = 2;
         ApplePressAndHoldEnabled = false;
         AppleShowAllExtensions = true;
         KeyRepeat = 2;
@@ -24,6 +25,16 @@
         NSDocumentSaveNewDocumentsToCloud = false;
         NSNavPanelExpandedStateForSaveMode = true;
         PMPrintingExpandedStateForPrint = true;
+        "com.apple.keyboard.fnState" = true;
+      };
+
+      controlcenter.Bluetooth = true;
+
+      # Safari's AutoFill preferences are per-user rather than global defaults.
+      CustomUserPreferences."com.apple.Safari" = {
+        AutoFillFromAddressBook = false;
+        AutoFillPasswords = false;
+        AutoFillCreditCardData = false;
       };
 
       LaunchServices.LSQuarantine = false;
@@ -53,10 +64,10 @@
         show-recents = false;
         showhidden = true;
         tilesize = 30;
-        wvous-bl-corner = 1;
-        wvous-br-corner = 1;
-        wvous-tl-corner = 1;
-        wvous-tr-corner = 1;
+        wvous-bl-corner = 3;
+        wvous-br-corner = 2;
+        wvous-tl-corner = 4;
+        wvous-tr-corner = 10;
       };
 
       screencapture = {
