@@ -12,6 +12,14 @@
 
   system = {
     defaults = {
+      CustomUserPreferences."com.apple.dock" = {
+        # Require Command while moving the pointer into a hot corner.
+        "wvous-bl-modifier" = 1048576;
+        "wvous-br-modifier" = 1048576;
+        "wvous-tl-modifier" = 1048576;
+        "wvous-tr-modifier" = 1048576;
+      };
+
       ".GlobalPreferences"."com.apple.mouse.scaling" = -1.0;
 
       NSGlobalDomain = {
