@@ -12,6 +12,12 @@
 
   system = {
     defaults = {
+      CustomUserPreferences.".GlobalPreferences" = {
+        # Keep a visible material behind the menu bar instead of allowing the
+        # wallpaper to extend behind its contents.
+        SLSMenuBarUseBlurredAppearance = true;
+      };
+
       CustomUserPreferences."com.apple.dock" = {
         # Require Command while moving the pointer into a hot corner.
         "wvous-bl-modifier" = 1048576;
@@ -42,6 +48,8 @@
       controlcenter.Bluetooth = true;
 
       LaunchServices.LSQuarantine = false;
+
+      universalaccess.reduceTransparency = true;
 
       trackpad = {
         TrackpadRightClick = true;
