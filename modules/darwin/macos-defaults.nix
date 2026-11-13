@@ -5,7 +5,10 @@
 }: {
   # Interactive macOS preferences. A host imports this capability only when it
   # wants this exact opinionated desktop behavior.
-  security.pam.services.sudo_local.touchIdAuth = true;
+  security.pam.services.sudo_local = {
+    touchIdAuth = true;
+    reattach = true;
+  };
 
   system = {
     defaults = {
