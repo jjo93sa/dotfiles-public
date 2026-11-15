@@ -11,6 +11,32 @@ tailcat *args:
     set -euo pipefail
     nix run github:tailscale/tailcat/v0.7.0 -- "$@"
 
+# Reconnect Herdr panes after Herdr starts before 1Password's SSH agent.
+[no-cd]
+herdr-refresh-ssh-agent:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    agent="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+    herdr_agent="$HOME/.config/herdr/herdr.sock.agent"
+
+    if [[ ! -S "$agent" ]]; then
+      printf '1Password SSH agent socket is unavailable: %s\n' "$agent" >&2
+      printf '%s\n' 'Start 1Password and enable its SSH agent, then retry.' >&2
+      exit 1
+    fi
+
+    if [[ -e "$herdr_agent" && ! -L "$herdr_agent" ]]; then
+      printf 'Refusing to replace non-symlink Herdr agent path: %s\n' \
+        "$herdr_agent" >&2
+      exit 1
+    fi
+
+    mkdir -p "$(dirname "$herdr_agent")"
+    ln -sfn "$agent" "$herdr_agent"
+    printf 'Herdr SSH agent now points to %s\n' "$agent"
+    ssh-add -l
+
 # Show unreachable Nix store paths without deleting them.
 [no-cd]
 nix-gc-inspect:

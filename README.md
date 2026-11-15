@@ -142,6 +142,7 @@ current repository:
 ```sh
 jg --list
 jg tailcat --help
+jg herdr-refresh-ssh-agent
 ```
 
 The hierarchy deliberately has three layers:
@@ -173,6 +174,21 @@ jg tailcat [TAILCAT OPTIONS]
 It uses `nix run`, so Tailcat is not added to an imperative profile. The recipe
 also has Just's `no-cd` attribute, which means relative file arguments are
 resolved from the directory in which `jg` was invoked.
+
+If Herdr starts after a reboot or crash before 1Password has created its SSH
+agent socket, restored panes can retain Herdr's unavailable-agent link even
+after 1Password starts. Once the 1Password SSH agent is running, repair the
+shared link for all affected panes with:
+
+```sh
+jg herdr-refresh-ssh-agent
+```
+
+The recipe verifies that the 1Password path is a live Unix socket, refuses to
+replace a non-symlink at Herdr's agent path, retargets
+`~/.config/herdr/herdr.sock.agent`, and finishes by listing the available SSH
+keys. It does not need to change `SSH_AUTH_SOCK` in each pane because Herdr
+already points those panes at its shared link.
 
 ## Generations and garbage collection
 
