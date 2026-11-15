@@ -40,6 +40,7 @@
     git = ../../home/modules/git.nix;
     herdr = ../../home/modules/herdr.nix;
     home = ../../home/modules/home.nix;
+    just = ../../home/modules/just.nix;
     krew = ../../home/modules/krew.nix;
     lazygit = ../../home/modules/lazygit.nix;
     neovim = ../../home/modules/neovim.nix;

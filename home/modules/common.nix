@@ -12,6 +12,7 @@
     ../modules/ghostty.nix
     ../modules/git.nix
     ../modules/home.nix
+    ../modules/just.nix
     ../modules/lazygit.nix
     ../modules/neovim.nix
     #../modules/scripts.nix

@@ -79,6 +79,112 @@ with `lib.mkDefault` can be replaced by an ordinary private definition. Equal-
 priority conflicting definitions produce an evaluation error; reserve
 `lib.mkForce` for cases that genuinely require overriding a non-default value.
 
+## Guided tour: follow one work Mac
+
+The quickest way to refresh the architecture is to trace one real host from
+its private entry point to an evaluated option. Start in
+`dotfiles-work-private/flake.nix` and find the `GBBRS-0264` definition. It calls
+the public constructor with the real hostname, platform, user identity, and
+two private module lists:
+
+```text
+dotfiles-work-private/flake.nix
+  |
+  +-- darwinModules = [ hosts/GBBRS-0264/configuration.nix ]
+  +-- homeModules   = [ home/jameso/GBBRS-0264.nix ]
+  `-- dotfiles.lib.mkDarwinHost
+```
+
+`dotfiles.lib.mkDarwinHost` is exported by
+`dotfiles-public/modules/flake/lib.nix`; its implementation is
+`dotfiles-public/lib/mkDarwinHost.nix`. The constructor adds the Home Manager
+and nix-homebrew integration modules, passes the shared module arguments, and
+returns two related outputs:
+
+```text
+darwinConfiguration
+  Machine-wide nix-darwin configuration. Home Manager is integrated here so
+  the system and user configuration activate together.
+
+homeConfiguration
+  Standalone evaluation of the same private Home Manager module list. This is
+  useful for inspection and targeted builds; normal Mac activation uses the
+  integrated configuration above.
+```
+
+Next, read the two private modules selected by the host:
+
+1. `hosts/GBBRS-0264/configuration.nix` imports public machine-wide
+   capabilities such as `outputs.darwinModules.system` and
+   `outputs.darwinModules.macos-defaults`, then adds work-host policy and
+   overrides.
+2. `home/jameso/GBBRS-0264.nix` imports `outputs.homeModules.common` and other
+   selected user capabilities, then adds work-only files, aliases, and
+   settings.
+
+`outputs.homeModules.common` leads back to
+`dotfiles-public/home/modules/common.nix`. That module is the shared user-level
+bundle; follow its imports into individual public modules to see where a
+program or generated file is defined.
+
+These read-only commands, run from `dotfiles-work-private`, confirm the final
+results after all public and private modules have merged:
+
+```sh
+nix eval --raw .#darwinConfigurations.GBBRS-0264.system
+
+nix eval --json \
+  .#darwinConfigurations.GBBRS-0264.config.nix.gc.interval
+
+nix eval --json \
+  '.#homeConfigurations."jameso@GBBRS-0264".config.programs.zsh.shellAliases'
+```
+
+### Follow one feature: global Just
+
+Global Just demonstrates how a reusable public mechanism can accept private
+extensions without the public repository knowing private paths or policy:
+
+```text
+dotfiles-public/home/modules/just.nix
+  |
+  +-- imported by public home/modules/common.nix
+  +-- installs ~/.config/just/justfile
+  +-- defines the jg shell alias
+  `-- declares dotfiles.just.globalModules
+        |
+        `-- work-private GBBRS-0264.nix adds the `work` module
+              |
+              `-- files/just/work.just
+                    `-- jg work dotfiles-check
+```
+
+The public global recipes themselves live in
+`dotfiles-public/files/configs/just/global.just`. Private configurations add
+named modules through `dotfiles.just.globalModules`; Home Manager renders each
+module into `~/.config/just/modules/` and writes the corresponding `mod`
+declaration into the generated root Justfile.
+
+Inspect that generated root file before activation with:
+
+```sh
+nix eval --raw \
+  '.#homeConfigurations."jameso@GBBRS-0264".config.xdg.configFile."just/justfile".text'
+```
+
+To discover both the final value and where its definitions came from, use the
+same `definitionsWithLocations` technique described below:
+
+```sh
+nix eval --json \
+  '.#homeConfigurations."jameso@GBBRS-0264".options.dotfiles.just.globalModules.definitionsWithLocations'
+```
+
+This two-pass tour—one complete host, then one feature—generalises to other
+hosts and modules. Begin with the private flake's constructor call, follow the
+selected module list into public outputs, and finally inspect the merged value
+through `config` or its provenance through `options`.
+
 ## Where a change belongs
 
 - Put reusable, non-sensitive user configuration in a public Home Manager
