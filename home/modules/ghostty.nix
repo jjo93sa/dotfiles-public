@@ -16,7 +16,11 @@
       shell-integration-features = "ssh-env";
       # Alternative: "Berkeley Mono".
       font-family = "PragmataPro Mono Liga";
-      font-feature = "dlig";
+      font-feature = [
+        "calt"
+        "liga"
+        "dlig"
+      ];
       # This installation only exposes the regular face, so Ghostty otherwise
       # synthesizes a noticeably heavy bold weight for terminal applications.
       font-style-bold = false;
