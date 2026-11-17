@@ -12,6 +12,7 @@
     k9s
     kubectl
     lua5_4
+    marp-cli
     mtr
     nh
     nixd
