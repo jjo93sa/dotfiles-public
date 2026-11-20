@@ -9,7 +9,7 @@ default:
 tailcat *args:
     #!/usr/bin/env bash
     set -euo pipefail
-    nix run github:tailscale/tailcat/v0.7.0 -- "$@"
+    nix run nixpkgs#tailcat -- "$@"
 
 # Reconnect Herdr panes after Herdr starts before 1Password's SSH agent.
 [no-cd]

@@ -71,9 +71,6 @@ package set:
 
 - `nixpkgs` follows `nixos-unstable` and supplies the normal `pkgs` used by
   modules and hosts.
-- `nixpkgs-master` follows the nixpkgs development branch. Use it narrowly for
-  a package that is needed before it reaches `nixos-unstable`, then return to
-  the normal package set when possible.
 - `nixpkgs-stable` follows the current stable release and is exposed as
   `pkgs.stable` for packages that deliberately need the slower-moving branch.
 - `nixpkgs-ghostty` follows `nixos-unstable` independently so Ghostty can be
@@ -81,24 +78,28 @@ package set:
 
 The rough promotion path is `master` to `nixos-unstable` to a stable release
 branch, although stable branches receive selected backports rather than every
-new package. Each input is still pinned to an exact revision in `flake.lock`:
-the word `master` does not make an activated system update automatically. For
-example, update only the development input with:
+new package. This flake does not normally track `master`; it uses the regular
+`nixos-unstable` input once a package reaches that branch. Each input is pinned
+to an exact revision in `flake.lock`, so an activated system does not update
+until its lock is changed. For example, update only the normal package set
+with:
 
 ```sh
-nix flake update nixpkgs-master
+nix flake update nixpkgs
 ```
 
 The package channels offered by [NixOS package search](https://search.nixos.org/packages)
 correspond to release or unstable branches, not necessarily the raw nixpkgs
-`master` revision pinned here. A newly added package can therefore exist in
-`nixpkgs-master` while being absent from searches against the stable channel.
+`master` branch. A newly added package can therefore exist upstream before it
+appears in an unstable or stable package search. A temporary input can bridge
+that gap for an urgent package, but should be removed once the package reaches
+the normal `nixpkgs` input.
 
 Nix also supports commands that operate outside these declarative host and
 Home Manager configurations. Tailcat provides a useful example:
 
 ```sh
-nix run github:tailscale/tailcat
+nix run nixpkgs#tailcat
 ```
 
 `nix run` resolves and builds the package, stores the result in `/nix/store`,
@@ -106,7 +107,7 @@ and executes it directly. It does not add `tailcat` to `PATH`; another run can
 reuse the store result until it is garbage-collected.
 
 ```sh
-nix profile install github:tailscale/tailcat
+nix profile install nixpkgs#tailcat
 nix profile list
 ```
 
@@ -164,8 +165,8 @@ public global file:
 dotfiles.just.globalModules.work = ../../files/just/work.just;
 ```
 
-The supplied `tailcat` recipe uses the upstream tagged flake and forwards all
-arguments unchanged:
+The supplied `tailcat` recipe uses the package from the `nixpkgs` flake
+registry and forwards all arguments unchanged:
 
 ```sh
 jg tailcat [TAILCAT OPTIONS]

@@ -1,14 +1,9 @@
 {
   config,
-  inputs,
   lib,
-  pkgs,
   ...
 }: let
   cfg = config.dotfiles.tailscale;
-  masterPkgs = import inputs.nixpkgs-master {
-    inherit (pkgs.stdenv.hostPlatform) system;
-  };
 in {
   options.dotfiles.tailscale.variant = lib.mkOption {
     type = lib.types.enum [
@@ -28,11 +23,7 @@ in {
     (lib.mkIf (cfg.variant == "cli") {
       # Authentication remains local to each machine and is established once
       # with `sudo tailscale up`.
-      services.tailscale = {
-        enable = true;
-        # 1.102.3 contains TS-2026-011 and has not yet reached nixos-unstable.
-        package = masterPkgs.tailscale;
-      };
+      services.tailscale.enable = true;
     })
 
     (lib.mkIf (cfg.variant == "gui") {

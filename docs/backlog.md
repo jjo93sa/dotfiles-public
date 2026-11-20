@@ -20,9 +20,3 @@ tasks belong in the corresponding private repository.
   whether the macOS 1Password GUI from nixpkgs preserves the required browser,
   SSH-agent, biometric, update, and code-signing behaviour. Make this usable by
   private overlays without forcing the same choice on every host.
-
-## Temporary pins
-
-- Remove the `nixpkgs-master` Tailscale override once the regular nixpkgs input
-  provides Tailscale 1.102.3 or newer. When recorded, regular nixpkgs provided
-  1.102.2 and master provided 1.102.3, so the override was still required.
