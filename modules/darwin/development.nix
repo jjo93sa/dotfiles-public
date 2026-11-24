@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   # Darwin system integration for development hosts. Cross-platform command-
-  # line tools are owned by Home Manager in home/modules/development.nix.
+  # line tools are owned by Home Manager in modules/home/development.nix.
   programs.zsh.enable = true;
 
   fonts.packages = with pkgs; [

@@ -19,7 +19,7 @@ modules/flake/
 modules/darwin/
   Reusable machine-wide nix-darwin capabilities.
 
-home/modules/
+modules/home/
   Reusable user-level Home Manager capabilities.
 
 files/
@@ -123,7 +123,7 @@ Next, read the two private modules selected by the host:
    settings.
 
 `outputs.homeModules.common` leads back to
-`dotfiles-public/home/modules/common.nix`. That module is the shared user-level
+`dotfiles-public/modules/home/common.nix`. That module is the shared user-level
 bundle; follow its imports into individual public modules to see where a
 program or generated file is defined.
 
@@ -146,9 +146,9 @@ Global Just demonstrates how a reusable public mechanism can accept private
 extensions without the public repository knowing private paths or policy:
 
 ```text
-dotfiles-public/home/modules/just.nix
+dotfiles-public/modules/home/just.nix
   |
-  +-- imported by public home/modules/common.nix
+  +-- imported by public modules/home/common.nix
   +-- installs ~/.config/just/justfile
   +-- defines the jg shell alias
   `-- declares dotfiles.just.globalModules

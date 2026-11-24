@@ -18,13 +18,6 @@ tasks belong in the corresponding private repository.
 
 - Expose a small reusable NixOS development module and then separate portable
   configuration from platform-specific integration:
-  - Normalise the source layout before adding the NixOS module. Use
-    `modules/home`, `modules/darwin`, `modules/nixos`, and `modules/flake` so
-    the directory names correspond directly to the exported `homeModules`,
-    `darwinModules`, and `nixosModules` APIs. Move the current `home/modules`
-    tree to `modules/home`, update relative asset paths and all imports, and
-    verify that no private consumer relies on a source-tree path instead of a
-    public flake output.
   - Start with `nixosModules.development`, containing a deliberately small set
     of command-line packages that are useful in a disposable development VM
     (for example `git`, `jq`, `just`, `ripgrep`, and `fastfetch`). Keep this
