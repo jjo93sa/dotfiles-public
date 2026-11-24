@@ -63,6 +63,28 @@ See [`docs/maintenance-guide.md`](docs/maintenance-guide.md) for the repository
 structure, module evaluation flow, update workflow, and debugging commands.
 Outstanding work is tracked in [`docs/backlog.md`](docs/backlog.md).
 
+## Where packages belong
+
+Both nix-darwin/NixOS and Home Manager use Nix and share `/nix/store`; choosing
+Home Manager does not create a second package store or duplicate an identical
+package. The choice is about ownership and lifecycle, not the number of users:
+
+> Install a package at the layer that owns the reason it exists.
+
+- The system configuration owns packages needed to provide, operate,
+  administer, or recover the machine's declared capabilities.
+- Home Manager owns packages selected for an individual user's interactive
+  environment and workflow.
+- A service or program module should own its package through its `package`
+  option where one is available.
+- Intentional overlap is safe, but should be documented when the system and a
+  user genuinely require the same package for different reasons.
+
+See [Where a change belongs](docs/maintenance-guide.md#where-a-change-belongs)
+for the complete decision test and examples. The current classification and
+follow-up actions are recorded in the
+[package ownership audit](docs/package-ownership-audit.md).
+
 ## Package sources and profiles
 
 The flake uses several independently locked nixpkgs inputs. They express a
@@ -224,6 +246,25 @@ Store paths reachable from any garbage-collection root—including retained
 system generations and imperative profiles—are live and cannot be collected.
 An uninstalled `nix run` result normally becomes eligible for collection once
 the command exits, but remains in `/nix/store` until collection runs.
+
+Inspect the registered roots on a multi-user macOS installation with:
+
+```sh
+sudo nix-store --gc --print-roots
+```
+
+Given a particular `/nix/store/...` path, show which roots keep it live and
+inspect its complete runtime closure with:
+
+```sh
+nix-store --query --roots /nix/store/…
+nix-store --query --requisites /nix/store/…
+```
+
+The first command can produce no output when the path is retained only
+indirectly through another store object. The requisites command follows the
+opposite direction: it shows everything the selected path needs. GC decides
+liveness by starting at every root and following this reference graph.
 
 Darwin hosts run automatic garbage collection at 03:00 each Sunday, deleting
 profile generations older than 30 days and then collecting paths no longer

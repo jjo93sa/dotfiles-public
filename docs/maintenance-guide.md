@@ -187,14 +187,75 @@ through `config` or its provenance through `options`.
 
 ## Where a change belongs
 
+The primary package-ownership rule is:
+
+> Install a package at the layer that owns the reason it exists.
+
+Both system configuration and Home Manager use Nix and share the machine's
+`/nix/store`. If two profiles select the same derivation, they link to the same
+immutable store path rather than storing separate package copies. The choice
+between layers therefore expresses ownership, availability, and lifecycle; it
+should not be based only on whether a machine currently has one user.
+
+Use NixOS or nix-darwin system configuration when a package:
+
+- is required before a user logs in, by a system service or activation script;
+- is needed to provide, administer, diagnose, or recover the machine;
+- must be available independently of any user's Home Manager profile;
+- is expected to be available to every user; or
+- belongs to a machine-wide capability such as networking, storage,
+  virtualization, backup, or security.
+
+Use Home Manager when a package:
+
+- exists because of an individual user's interactive workflow;
+- belongs with that user's files, aliases, plugins, identity, or preferences;
+- should follow the person between otherwise different machines;
+- could reasonably vary by user, version, or preferred alternative; and
+- is not required for system operation or recovery.
+
+Prefer a service or program module's `package` option when it has one. This
+keeps the executable with the capability that configures and uses it, instead
+of adding an unrelated entry to `environment.systemPackages` or
+`home.packages`.
+
+Apply this decision test in order:
+
+1. If a service or another module requires the package, let that capability
+   own it.
+2. If the machine would be incomplete or difficult to recover without it, use
+   system configuration.
+3. If it must work without the user's Home Manager profile, use system
+   configuration.
+4. If its purpose and configuration are personal, use Home Manager.
+5. If it should follow a person across machines, use Home Manager.
+6. If it should follow the machine when its users change, use system
+   configuration.
+7. If both layers genuinely require it for different reasons, allow the
+   overlap and document both reasons.
+
+For example, Neovim with personal plugins belongs in Home Manager, while a
+minimal recovery editor belongs to the system. Git normally belongs in a
+developer's Home Manager configuration, but a system activation script that
+requires Git gives the system an independent reason to install it. Fastfetch
+is ordinarily a user tool, but a disposable demonstration VM may deliberately
+provide it as part of that VM's declared capability. Package names do not have
+one permanent classification; the reason for installing them determines
+ownership.
+
+Do not extract a shared package list merely because two configurations happen
+to contain the same names. Prefer narrowly named capability modules whose
+purpose explains their packages. A shared list is appropriate when the shared
+ownership is itself intentional and stable.
+
 - Put reusable, non-sensitive user configuration in a public Home Manager
   module.
 - Put reusable machine-wide macOS configuration in a public nix-darwin module.
 - Put identity, host selection, organization-specific values, and private
   overrides in the private flake.
-- Prefer Home Manager for user-owned files, shell configuration, and user
-  applications. Prefer nix-darwin for system packages, macOS defaults,
-  services, Homebrew policy, and settings requiring system activation.
+- Prefer Home Manager for user-owned files and shell configuration. Prefer
+  nix-darwin for macOS defaults, services, Homebrew policy, and settings
+  requiring system activation; apply the ownership test above to packages.
 - Never put credentials or decrypted secrets into Nix expressions or build
   inputs. They may be copied into the world-readable Nix store.
 
