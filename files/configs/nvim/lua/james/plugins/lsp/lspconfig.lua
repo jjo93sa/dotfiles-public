@@ -15,6 +15,17 @@ return {
 
 		-- import cmp-nvim-lsp plugin
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
+		local ansible_root_markers = { "ansible.cfg", ".ansible-lint", ".ansible-project", ".git" }
+		local function ansible_root_dir(bufnr, on_dir)
+			local path = vim.api.nvim_buf_get_name(bufnr)
+			local configured_root = vim.env.DOTFILES_ANSIBLE_ROOT
+			if configured_root and (path == configured_root or vim.startswith(path, configured_root .. "/")) then
+				on_dir(configured_root)
+				return
+			end
+
+			on_dir(vim.fs.root(path, ansible_root_markers) or vim.fs.dirname(path))
+		end
 
 		local keymap = vim.keymap -- for conciseness
 
@@ -107,9 +118,11 @@ return {
 
 		-- configure ansible server
 		setup("ansiblels", {
+			cmd = { vim.env.ANSIBLE_LANGUAGE_SERVER or "ansible-language-server", "--stdio" },
 			capabilities = capabilities,
 			on_attach = on_attach,
-			filetypes = { "yaml.ansible" },
+			filetypes = { "ansible", "yaml.ansible" },
+			root_dir = ansible_root_dir,
 			settings = {
 				ansible = {
 					ansible = {
