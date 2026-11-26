@@ -395,3 +395,13 @@ Useful distinctions when diagnosing failures:
 - An activation error occurs while applying an already-built configuration.
 - A new shell or restarted long-running process may be required before an
   activated environment or `PATH` change becomes visible.
+
+Home Manager prevents its session-variable script from being sourced twice.
+Because those guard variables are inherited, a plain `exec zsh -l` in a
+long-lived or restored terminal pane can skip session variables added by the
+new generation. Force that shell to load the activated values with:
+
+```sh
+unset __HM_SESS_VARS_SOURCED __HM_ZSH_SESS_VARS_SOURCED
+exec zsh -l
+```

@@ -166,6 +166,7 @@ current repository:
 jg --list
 jg tailcat --help
 jg herdr-refresh-ssh-agent
+jg atuin-backup
 ```
 
 The hierarchy deliberately has three layers:
@@ -212,6 +213,57 @@ replace a non-symlink at Herdr's agent path, retargets
 `~/.config/herdr/herdr.sock.agent`, and finishes by listing the available SSH
 keys. It does not need to change `SSH_AUTH_SOCK` in each pane because Herdr
 already points those panes at its shared link.
+
+### Atuin client backups and migration
+
+Create a consistent backup of the complete local Atuin client data with:
+
+```sh
+jg atuin-backup
+```
+
+By default, archives are written beneath
+`${XDG_STATE_HOME:-$HOME/.local/state}/atuin/backups`. An alternative directory
+can be supplied as the recipe's first argument. The recipe snapshots every
+SQLite database with SQLite's online-backup operation and includes the Atuin
+encryption key and other client state. It deliberately excludes transient WAL
+and SHM files. Backup archives have mode `0600`; because they contain the key,
+handle them with the same care as an SSH private key.
+
+To migrate or recover a client, copy an archive to the target machine and run:
+
+```sh
+jg atuin-restore /path/to/atuin-client-TIMESTAMP.tar.gz \
+  restore-atuin-client-data
+```
+
+The explicit final argument guards against an accidental restore. The recipe
+validates the archive and its databases before making changes, stops and later
+restarts the Atuin daemon if it was running, and moves the current data
+directory to a timestamped `pre-restore` path rather than deleting it. Open a
+new shell and run `atuin doctor` before removing that safety copy.
+
+This is an Atuin-to-Atuin backup and restore. `atuin import` serves a different
+purpose: importing history from shells and other history tools, with less
+metadata than a native Atuin backup preserves.
+
+Prefer the same Atuin version on the source and target. When moving data from
+an older client, first create a pre-upgrade archive with the source's current
+version. Then update Atuin on the source, open a new shell, run `atuin doctor`,
+and confirm that the old history remains searchable. Create a second archive
+after that successful migration and restore that archive on the target. The
+restore recipe prints the archive's recorded Atuin version and the installed
+version, and warns if they differ.
+
+For example, before activating a configuration that updates the source Mac,
+the newly pulled recipe can be run directly from the public checkout:
+
+```sh
+just --justfile files/configs/just/global.just atuin-backup
+```
+
+After activation and verification, use `jg atuin-backup` to create the archive
+that will be transferred.
 
 ## Generations and garbage collection
 
