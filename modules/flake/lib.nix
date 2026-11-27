@@ -56,5 +56,6 @@
   flake.nixosModules = {
     baseline = ../nixos/baseline.nix;
     development = ../nixos/development.nix;
+    ghostty-terminfo = ../nixos/ghostty-terminfo.nix;
   };
 }

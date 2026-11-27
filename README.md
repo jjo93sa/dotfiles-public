@@ -66,6 +66,9 @@ tooling from development conveniences:
 - `nixosModules.development` imports that baseline and adds a small,
   non-opinionated set of guest-development tools: Fastfetch, Jq, Just and
   Ripgrep. It does not impose user dotfiles or interactive shell policy.
+- `nixosModules.ghostty-terminfo` installs Ghostty's terminfo database for
+  NixOS machines that accept remote logins from Ghostty. It is independent of
+  the baseline so hosts opt into this terminal capability explicitly.
 
 Private NixOS hosts should import only the capability they need. A disposable
 development VM can use `development`; a longer-lived server can use `baseline`

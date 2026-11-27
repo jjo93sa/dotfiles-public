@@ -27,6 +27,8 @@
           mkModuleEvaluation "nixos-baseline" self.nixosModules.baseline;
         nixos-development-evaluation =
           mkModuleEvaluation "nixos-development" self.nixosModules.development;
+        nixos-ghostty-terminfo-evaluation =
+          mkModuleEvaluation "nixos-ghostty-terminfo" self.nixosModules.ghostty-terminfo;
       };
     };
 }
