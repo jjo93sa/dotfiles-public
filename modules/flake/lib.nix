@@ -52,4 +52,9 @@
     zoxide = ../home/zoxide.nix;
     zsh = ../home/zsh.nix;
   };
+
+  flake.nixosModules = {
+    baseline = ../nixos/baseline.nix;
+    development = ../nixos/development.nix;
+  };
 }

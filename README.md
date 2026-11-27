@@ -55,6 +55,21 @@ a fallback font. The flake does install JetBrains Mono and Meslo Nerd Fonts.
   Darwin.
 - `darwinModules` exposes reusable machine-wide macOS capabilities.
 - `homeModules` exposes reusable user-level capabilities.
+- `nixosModules` exposes reusable machine-wide Linux capabilities.
+
+The exported NixOS modules deliberately separate a host's minimum operational
+tooling from development conveniences:
+
+- `nixosModules.baseline` supplies `curl`, Git, Nano and Unzip for machine
+  administration and recovery, independently of any user's Home Manager
+  profile.
+- `nixosModules.development` imports that baseline and adds a small,
+  non-opinionated set of guest-development tools: Fastfetch, Jq, Just and
+  Ripgrep. It does not impose user dotfiles or interactive shell policy.
+
+Private NixOS hosts should import only the capability they need. A disposable
+development VM can use `development`; a longer-lived server can use `baseline`
+without acquiring the additional development environment.
 
 See [`examples/private-overlay/README.md`](examples/private-overlay/README.md)
 for setup, evaluation, and activation commands.
