@@ -265,6 +265,26 @@ just --justfile files/configs/just/global.just atuin-backup
 After activation and verification, use `jg atuin-backup` to create the archive
 that will be transferred.
 
+Restoring replaces the active client data, so use a native merge when the
+target already has history that must also be retained:
+
+```sh
+jg atuin-merge /path/to/atuin-client-TIMESTAMP.tar.gz \
+  merge-atuin-client-data
+```
+
+The merge source may instead be an Atuin data directory, including the
+timestamped `pre-restore` directory retained by `atuin-restore`. The recipe
+validates both databases and requires matching history schemas. It creates a
+fresh backup of the active client, inserts only history UUIDs that are missing,
+and runs Atuin's idempotent `history init-store` operation to encode those
+entries into the active encrypted record store. It then verifies both SQLite
+and record-store integrity. This preserves native Atuin metadata including
+timestamps, directories, durations, exit statuses, sessions, hosts and UUIDs.
+
+Use `atuin import` only when the source is a shell or another history tool. It
+cannot preserve all of this Atuin-specific metadata.
+
 ## Generations and garbage collection
 
 Nix profiles retain generations so that an earlier configuration can be used

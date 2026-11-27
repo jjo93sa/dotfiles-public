@@ -166,6 +166,114 @@ atuin-restore archive confirmation:
     fi
     printf '%s\n' 'Open a new shell, then run: atuin doctor'
 
+# Merge native Atuin history while preserving complete entry metadata.
+[no-cd]
+atuin-merge source confirmation:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    source={{ quote(source) }}
+    confirmation={{ quote(confirmation) }}
+    data_directory="${ATUIN_DATA_DIR:-$HOME/.local/share/atuin}"
+    active_db="$data_directory/history.db"
+
+    if [[ "$confirmation" != merge-atuin-client-data ]]; then
+      printf '%s\n' 'Merging changes the active Atuin history and record store.' >&2
+      printf '%s\n' \
+        'Re-run with the final argument: merge-atuin-client-data' >&2
+      exit 1
+    fi
+    if [[ ! -f "$active_db" ]]; then
+      printf 'Active Atuin history database does not exist: %s\n' \
+        "$active_db" >&2
+      exit 1
+    fi
+
+    temporary="$(mktemp -d "${TMPDIR:-/tmp}/atuin-merge.XXXXXX")"
+    trap 'rm -rf "$temporary"' EXIT
+
+    if [[ -d "$source" && -f "$source/history.db" ]]; then
+      source_db="$source/history.db"
+    elif [[ -f "$source" ]]; then
+      tar -xzf "$source" -C "$temporary"
+      source_db="$temporary/atuin-data/history.db"
+    else
+      printf 'Expected an Atuin data directory or backup archive: %s\n' \
+        "$source" >&2
+      exit 1
+    fi
+    if [[ ! -f "$source_db" ]]; then
+      printf 'Merge source does not contain history.db: %s\n' "$source" >&2
+      exit 1
+    fi
+
+    # Work from a consistent snapshot with a controlled path. Besides avoiding
+    # a changing source, this keeps user-supplied path characters out of SQL.
+    sqlite3 "$source_db" ".backup '$temporary/incoming-history.db'"
+    source_db="$temporary/incoming-history.db"
+
+    for database in "$active_db" "$source_db"; do
+      if [[ "$(sqlite3 "$database" 'PRAGMA integrity_check;')" != ok ]]; then
+        printf 'SQLite integrity check failed: %s\n' "$database" >&2
+        exit 1
+      fi
+    done
+
+    active_columns="$(sqlite3 "$active_db" \
+      "select group_concat(name, ',') from pragma_table_info('history');")"
+    source_columns="$(sqlite3 "$source_db" \
+      "select group_concat(name, ',') from pragma_table_info('history');")"
+    if [[ "$active_columns" != "$source_columns" ]]; then
+      printf '%s\n' \
+        'History schemas differ; update both clients to the same Atuin version.' >&2
+      exit 1
+    fi
+
+    missing="$(sqlite3 "$active_db" \
+      "attach database '$source_db' as incoming;
+       select count(*) from incoming.history i
+       where not exists (select 1 from main.history h where h.id = i.id);")"
+    if [[ "$missing" == 0 ]]; then
+      printf '%s\n' 'No missing Atuin history records were found.'
+      exit 0
+    fi
+
+    printf 'Native history records to merge: %s\n' "$missing"
+    just --justfile {{ quote(justfile()) }} atuin-backup
+
+    sqlite3 "$active_db" \
+      "attach database '$source_db' as incoming;
+       begin immediate;
+       insert or ignore into main.history
+         (id, timestamp, duration, exit, command, cwd, session, hostname,
+          deleted_at, author, intent, shell, author_kind)
+       select id, timestamp, duration, exit, command, cwd, session, hostname,
+              deleted_at, author, intent, shell, author_kind
+       from incoming.history;
+       commit;"
+
+    # Convert rows not already represented in the encrypted record store into
+    # native records. Atuin implements this operation idempotently by UUID.
+    atuin history init-store
+    atuin store verify
+
+    if [[ "$(sqlite3 "$active_db" 'PRAGMA integrity_check;')" != ok ]]; then
+      printf '%s\n' 'Merged history failed its SQLite integrity check.' >&2
+      exit 1
+    fi
+
+    remaining="$(sqlite3 "$active_db" \
+      "attach database '$source_db' as incoming;
+       select count(*) from incoming.history i
+       where not exists (select 1 from main.history h where h.id = i.id);")"
+    if [[ "$remaining" != 0 ]]; then
+      printf 'Merge incomplete; %s records remain missing.\n' "$remaining" >&2
+      exit 1
+    fi
+
+    printf 'Merged %s native Atuin history records with full metadata.\n' \
+      "$missing"
+
 # Show unreachable Nix store paths without deleting them.
 [no-cd]
 nix-gc-inspect:
