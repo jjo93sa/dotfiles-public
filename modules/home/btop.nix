@@ -3,9 +3,9 @@
   programs.btop = {
     enable = true;
     settings = {
-      # This packaged theme uses the same #1d2021 background and canonical
-      # accent colours as the rest of the Gruvbox Dark Hard configuration.
-      color_theme = "gruvbox_dark";
+      # Use btop's more vivid Gruvbox variant: it retains the canonical palette
+      # while making selections, meters and graph gradients clearly distinct.
+      color_theme = "gruvbox_dark_v2";
       vim_keys = true;
     };
   };
